@@ -26,3 +26,19 @@ def patch_wicked():
         cleanUp()
     except ImportError:
         pass
+
+
+def patch_cmfcore():
+    try:
+        from Products.CMFCore.zcml import cleanUp
+        cleanUp()
+    except ImportError:
+        pass
+
+
+def patch_pas():
+    try:
+        from Products.PluggableAuthService.zcml import cleanUp
+        cleanUp()
+    except ImportError:
+        pass

@@ -6,6 +6,8 @@ Changelog for plone.reload
 0.3 Unreleased
 --------------
 
+    - Added cleanup for CMFCore and PAS.
+      [hannosch]
 
 0.2 Released January 25, 2008
 -----------------------------

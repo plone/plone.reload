@@ -7,6 +7,7 @@ from Products.Five import zcml
 from plone.reload.interfaces import IZCMLReload
 from plone.reload import PATCHES
 
+
 class ZCMLReload(BrowserView):
     """Reload all global ZCML.
     """
