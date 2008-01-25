@@ -3,8 +3,8 @@ Changelog for plone.reload
 
     (name of developer listed in brackets)
 
-0.2 Unreleased
---------------
+0.2 Released January 25, 2008
+-----------------------------
 
     - Added compatibility with Zope 2.10 / Plone 3.0.
       [hannosch]
