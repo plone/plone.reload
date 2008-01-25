@@ -3,6 +3,10 @@ Changelog for plone.reload
 
     (name of developer listed in brackets)
 
+0.3 Unreleased
+--------------
+
+
 0.2 Released January 25, 2008
 -----------------------------
 
