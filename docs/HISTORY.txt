@@ -1,0 +1,12 @@
+Changelog for plone.reload
+
+    (name of developer listed in brackets)
+
+plone.reload - 0.1 Unreleased
+
+    - Initial implementation based heavily on Products.RefreshNG.
+      [hannosch]
+
+    - Initial package structure.
+      [zopeskel]
+
