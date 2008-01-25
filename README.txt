@@ -22,4 +22,9 @@ You should see a message::
 
   Global ZCML reloaded.
 
-Reloading this page will reload all global ZCML from all packages and products.
+Subsequent reloads of this page will reload all global ZCML from all packages
+and products each time.
+
+If you get a `Resource not found` error, make sure you have loaded this
+packages configure.zcml file and you really use the ZODB application root and
+not a Plone site as the base url.
