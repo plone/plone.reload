@@ -1,11 +1,16 @@
 Changelog for plone.reload
+==========================
 
     (name of developer listed in brackets)
 
-plone.reload - 0.2 Unreleased
+0.2 Unreleased
+--------------
 
+    - Added compatibility with Zope 2.10 / Plone 3.0.
+      [hannosch]
 
-plone.reload - 0.1 Released January 25, 2008
+0.1 Released January 25, 2008
+-----------------------------
 
     - Initial implementation based heavily on Products.RefreshNG.
       [hannosch]
