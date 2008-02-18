@@ -6,6 +6,11 @@ Changelog for plone.reload
 0.3 Unreleased
 --------------
 
+    - Fixed caching issues by invalidating all ZODB caches. If you have local
+      site managers spread across multiple FileStorages this might still not
+      work as expected.
+      [hannosch]
+
     - Added cleanup for CMFCore and PAS.
       [hannosch]
 
