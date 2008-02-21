@@ -3,8 +3,8 @@ Changelog for plone.reload
 
     (name of developer listed in brackets)
 
-0.3 Unreleased
---------------
+0.3 Released February 21, 2008
+------------------------------
 
     - Fixed caching issues by invalidating all ZODB caches. If you have local
       site managers spread across multiple FileStorages this might still not
