@@ -6,6 +6,7 @@ from Acquisition import aq_base
 from Products.Five.browser import BrowserView
 from Products.Five import zcml
 
+from plone.reload.code import reload_code
 from plone.reload.interfaces import IZCMLReload
 from plone.reload import PATCHES
 
@@ -16,6 +17,8 @@ class ZCMLReload(BrowserView):
     implements(IZCMLReload)
 
     def reload(self):
+        reload_code()
+
         setSite(None)
         gsm = getGlobalSiteManager()
         gsm.__init__(gsm.__name__)
