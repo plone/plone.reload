@@ -3,8 +3,8 @@ Changelog for plone.reload
 
     (name of developer listed in brackets)
 
-0.4 Unreleased
---------------
+0.4 Released March 1, 2008
+--------------------------
 
     - Made the code reload available as its own @@code_reload view.
       [hannosch]

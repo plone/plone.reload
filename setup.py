@@ -17,12 +17,11 @@ long_description=(
 
 setup(name=name,
       version=version,
-      description="ZCML configuration reload without server restarts.",
+      description="Configuration and code reload without server restarts.",
       long_description=long_description,
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",
-        "Framework :: Zope3",
         "Programming Language :: Python",
         ],
       keywords='Zope Plone reload',
