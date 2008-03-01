@@ -2,6 +2,15 @@
            xmlns:browser="http://namespaces.zope.org/browser">
 
   <browser:page
+    name="code_reload"
+    for="OFS.interfaces.IApplication"
+    permission="zope2.ViewManagementScreens"
+    class=".browser.CodeReload"
+    attribute="reload"
+    allowed_interface=".interfaces.ICodeReload"
+    />
+
+  <browser:page
     name="zcml_reload"
     for="OFS.interfaces.IApplication"
     permission="zope2.ViewManagementScreens"

@@ -6,6 +6,9 @@ Changelog for plone.reload
 0.4 Unreleased
 --------------
 
+    - Made the code reload available as its own @@code_reload view.
+      [hannosch]
+
     - Integrated xreload.py from RefreshNG and added a first working version
       of a general manual code reload feature.
       [hannosch]

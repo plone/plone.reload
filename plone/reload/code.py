@@ -112,7 +112,10 @@ def check_mod_times():
 
 def reload_code():
     global MOD_TIMES
+    reloaded = []
     for path, time, module in check_mod_times():
         r = Reloader(module)
         module = r.reload()
         MOD_TIMES[path] = (time, module)
+        reloaded.append(path)
+    return reloaded
