@@ -1,10 +1,10 @@
-plone.reload Package Readme
-===========================
+plone.reload
+============
 
 Overview
 --------
 
-ZCML configuration reload without server restarts.
+Configuration and code reload without server restarts.
 
 This code is heavily based on the Products.RefreshNG product found at
 http://launchpad.net/refreshng.
@@ -28,3 +28,7 @@ and products each time.
 If you get a `Resource not found` error, make sure you have loaded this
 packages configure.zcml file and you really use the ZODB application root and
 not a Plone site as the base url.
+
+To reload Python code from the file system goto /@@code_reload. You will
+see a page with the 'Code reloaded:' message and a listing of all the modules
+which were reloaded.
