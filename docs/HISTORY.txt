@@ -6,6 +6,9 @@ Changelog for plone.reload
 0.5 Unreleased
 --------------
 
+    - Removed various levels of caching which turned out to be premature and
+      caused lots of modules not to be found.
+      [hannosch]
 
 0.4 Released March 1, 2008
 --------------------------
