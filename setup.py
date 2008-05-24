@@ -11,13 +11,13 @@ def read(*rnames):
 long_description=(
         read('README.txt')
         + '\n' +
-        read('docs', 'HISTORY.txt')
+        read('CHANGES.txt')
     )
 
 
 setup(name=name,
       version=version,
-      description="Configuration and code reload without server restarts.",
+      description="Configuration and code reload without Zope server restarts.",
       long_description=long_description,
       classifiers=[
         "Framework :: Plone",
@@ -27,7 +27,7 @@ setup(name=name,
       keywords='Zope Plone reload',
       author='Plone Foundation',
       author_email='plone-developers@lists.sourceforge.net',
-      url='http://svn.plone.org/svn/plone/plone.reload/trunk',
+      url='http://pypi.python.org/pypi/plone.reload',
       license='GPL',
       packages=find_packages(exclude=['ez_setup']),
       namespace_packages=['plone'],
