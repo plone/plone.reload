@@ -1,52 +1,53 @@
-Changelog for plone.reload
-==========================
-
-    (name of developer listed in brackets)
+Changelog
+=========
 
 0.5 Unreleased
 --------------
 
-    - Merged r20 from http://bazaar.launchpad.net/~refreshng-dev/refreshng/dev.
-      This fixes https://bugs.launchpad.net/refreshng/+bug/175898.
-      [hannosch]
+- Merged r20 from http://bazaar.launchpad.net/~refreshng-dev/refreshng/dev.
+  This fixes https://bugs.launchpad.net/refreshng/+bug/175898.
+  [hannosch]
 
-    - Removed various levels of caching which turned out to be premature and
-      caused lots of modules not to be found.
-      [hannosch]
+- Removed various levels of caching which turned out to be premature and
+  caused lots of modules not to be found.
+  [hannosch]
 
-0.4 Released March 1, 2008
---------------------------
 
-    - Made the code reload available as its own @@code_reload view.
-      [hannosch]
+0.4 (2008-03-01)
+----------------
 
-    - Integrated xreload.py from RefreshNG and added a first working version
-      of a general manual code reload feature.
-      [hannosch]
+- Made the code reload available as its own @@code_reload view.
+  [hannosch]
 
-0.3 Released February 21, 2008
-------------------------------
+- Integrated xreload.py from RefreshNG and added a first working version of a
+  general manual code reload feature.
+  [hannosch]
 
-    - Fixed caching issues by invalidating all ZODB caches. If you have local
-      site managers spread across multiple FileStorages this might still not
-      work as expected.
-      [hannosch]
 
-    - Added cleanup for CMFCore and PAS.
-      [hannosch]
+0.3 (2008-02-21)
+----------------
 
-0.2 Released January 25, 2008
------------------------------
+- Fixed caching issues by invalidating all ZODB caches. If you have local site
+  managers spread across multiple FileStorages this might still not work as
+  expected.
+  [hannosch]
 
-    - Added compatibility with Zope 2.10 / Plone 3.0.
-      [hannosch]
+- Added cleanup for CMFCore and PAS.
+  [hannosch]
 
-0.1 Released January 25, 2008
------------------------------
 
-    - Initial implementation based heavily on Products.RefreshNG.
-      [hannosch]
+0.2 (2008-01-25)
+----------------
 
-    - Initial package structure.
-      [zopeskel]
+- Added compatibility with Zope 2.10 / Plone 3.0.
+  [hannosch]
 
+
+0.1 (2008-01-25)
+----------------
+
+- Initial implementation based heavily on Products.RefreshNG.
+  [hannosch]
+
+- Initial package structure.
+  [zopeskel]
