@@ -6,6 +6,10 @@ Changelog for plone.reload
 0.5 Unreleased
 --------------
 
+    - Merged r20 from http://bazaar.launchpad.net/~refreshng-dev/refreshng/dev.
+      This fixes https://bugs.launchpad.net/refreshng/+bug/175898.
+      [hannosch]
+
     - Removed various levels of caching which turned out to be premature and
       caused lots of modules not to be found.
       [hannosch]

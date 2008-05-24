@@ -68,6 +68,9 @@ class Reloader(object):
                 return reload(self.mod)
             if kind == imp.PY_SOURCE:
                 source = stream.read()
+                # PeterB: if we don't strip the source code and add newline we get 
+                # a SyntaxError even if `python $filename` is perfectly happy.
+                source = source.strip()+'\n'
                 code = compile(source, filename, "exec")
             else:
                 code = marshal.load(stream)
@@ -136,7 +139,6 @@ class Reloader(object):
 
 def _update_function(oldfunc, newfunc):
     """Update a function object."""
-
     oldfunc.func_code = newfunc.func_code
     oldfunc.func_defaults = newfunc.func_defaults
     # XXX What else?
