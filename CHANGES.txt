@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.5 Unreleased
---------------
+0.5 (2008-05-24)
+----------------
 
 - Merged r20 from http://bazaar.launchpad.net/~refreshng-dev/refreshng/dev.
   This fixes https://bugs.launchpad.net/refreshng/+bug/175898.
