@@ -1,6 +1,14 @@
 Changelog
 =========
 
+0.6 (2008-06-11)
+----------------
+
+- Disabled blacklist until it can be made configurable. The speedup is hardly
+  noticeable anyway, and it can block too much (especially if plone.reload
+  is being used in a lib/python style deployment rather than as an egg).
+  [optilude]
+
 0.5 (2008-05-24)
 ----------------
 
