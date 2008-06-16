@@ -1,5 +1,10 @@
-from zope.interface import Attribute
 from zope.interface import Interface
+
+
+class IReload(Interface):
+    """Interface for the ZCML reload view.
+    """
+
 
 class ICodeReload(Interface):
     """Interface for the code reload view.

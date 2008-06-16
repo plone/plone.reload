@@ -1,6 +1,17 @@
 Changelog
 =========
 
+0.7
+---
+
+- Refactored ZCML loading code a bit. Always do an automatic code reload
+  before reloading ZCML.
+  [hannosch]
+
+- Removed all blacklisting code.
+  [hannosch]
+
+
 0.6 (2008-06-11)
 ----------------
 
@@ -8,6 +19,7 @@ Changelog
   noticeable anyway, and it can block too much (especially if plone.reload
   is being used in a lib/python style deployment rather than as an egg).
   [optilude]
+
 
 0.5 (2008-05-24)
 ----------------
