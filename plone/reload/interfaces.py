@@ -5,18 +5,11 @@ class IReload(Interface):
     """Interface for the ZCML reload view.
     """
 
+    def status():
+        """Return a status text."""
 
-class ICodeReload(Interface):
-    """Interface for the code reload view.
-    """
-
-    def reload():
+    def code_reload():
         """Reload all changed code."""
 
-
-class IZCMLReload(Interface):
-    """Interface for the ZCML reload view.
-    """
-
-    def reload():
+    def zcml_reload():
         """Reprocess all global ZCML."""

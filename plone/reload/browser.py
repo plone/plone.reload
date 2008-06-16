@@ -5,7 +5,7 @@ from Products.Five.browser import BrowserView
 
 from plone.reload.code import reload_code
 from plone.reload.interfaces import IReload
-from plone.reload.zcml import zcml_reload
+from plone.reload.zcml import reload_zcml
 
 
 class Reload(BrowserView):
@@ -13,35 +13,47 @@ class Reload(BrowserView):
     """
     implements(IReload)
 
+    def __init__(self, context, request):
+        BrowserView.__init__(self, context, request)
+        self.message = None
 
-class CodeReload(BrowserView):
-    """Reload all changed code.
-    """
-    implements(IReload)
+    def __call__(self):
+        action = self.request.form.get('action')
+        if action is not None:
+            if action == 'code':
+                self.message = self.code_reload()
+            elif action == 'zcml':
+                self.message = self.zcml_reload()
+        return self.index()
 
-    def reload(self):
+    def status(self):
+        return self.message
+
+    def code_reload(self):
         reloaded = reload_code()
 
-        result = 'Code reloaded:\n\n'
-        result += '\n'.join(reloaded)
+        result = ''
+        if reloaded:
+            result += 'Code reloaded:\n\n'
+            result += '\n'.join(reloaded)
+        else:
+            result = 'No code reloaded!'
         return result
 
-
-class ZCMLReload(BrowserView):
-    """Reload all code and global ZCML.
-    """
-    implements(IReload)
-
-    def reload(self):
+    def zcml_reload(self):
         # We always do an implicit code reload so we can register all newly
         # added classes.
         reloaded = reload_code()
-        zcml_reload()
+        reload_zcml()
 
         # TODO Minimize all caches, we only really want to invalidate the
         # local site manager from all caches
         aq_base(self.context)._p_jar.db().cacheMinimize()
-        result = 'Global ZCML reloaded.\n\n'
-        result += 'Code reloaded:\n\n'
-        result += '\n'.join(reloaded)
+        result = ''
+        if reloaded:
+            result += 'Code reloaded:\n\n'
+            result += '\n'.join(reloaded)
+        else:
+            result = 'No code reloaded!'
+        result += '\n\nGlobal ZCML reloaded.'
         return result

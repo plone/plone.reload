@@ -1,0 +1,68 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal">
+<head>
+  <title>plone.reload</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+
+    <h1>plone.reload</h1>
+
+    <div style="background-color:#eee; padding:0.5em; line-height:1.2em;">
+        Note: plone.reload is still experimental and some functionality is
+        not yet as good as it can be. Current limitations include:
+        <ul style="margin:0.5em;">
+            <li>
+                You need to 'reload' your code once for plone.reload to track
+                it. Do that before doing the first changes to it, but after it
+                has been loaded, i.e. put into sys.modules.
+            </li>
+            <li>
+                Currently plone.reload doesn't reload any decorated methods
+                correctly, so apply decorators (like the ones from
+                plone.memoize or property) once finished with your code.
+            </li>
+        </ul>
+    </div>
+
+    <tal:block tal:condition="view/status">
+
+        <h2>Status</h2>
+
+        <pre tal:content="view/status"
+             style="background-color:#ddd; padding:0.5em;
+                    border: 1px black dashed; line-height:1.2em;">
+            Status
+        </pre>
+
+    </tal:block>
+
+    <h2>Actions</h2>
+
+    <table>
+        <tr>
+            <td style="padding:3px;">
+                <form action="#" tal:attributes="action request/getURL" method="get">
+
+                    <input type="hidden" name="action" value="code" />
+
+                    <input type="submit" value="Reload Code" />
+
+                </form>
+            </td>
+            <td style="padding:3px;">
+                <form action="#" tal:attributes="action request/getURL" method="get">
+
+                    <input type="hidden" name="action" value="zcml" />
+
+                    <input type="submit" value="Reload Code and ZCML" />
+
+                </form>
+            </td>
+        </tr>
+    </table>
+
+</body>
+</html>

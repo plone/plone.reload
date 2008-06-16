@@ -19,23 +19,22 @@ the place.
 Usage
 -----
 
-While being logged into the ZMI as a Manager user goto /@@zcml_reload on your
+While being logged into the ZMI as a Manager user goto /@@reload on your
 Zope application root via a browser. If your Zope is configured to listen on
 port 8080 on localhost this is::
 
-  http://localhost:8080/@@zcml_reload
-
-You should see a message::
-
-  Global ZCML reloaded.
-
-Subsequent reloads of this page will reload all global ZCML from all packages
-and products each time.
+  http://localhost:8080/@@reload
 
 If you get a `Resource not found` error, make sure you have loaded this
 packages configure.zcml file and you really use the ZODB application root and
 not a Plone site as the base url.
 
-To reload Python code from the file system goto /@@code_reload. You will
-see a page with the 'Code reloaded:' message and a listing of all the modules
-which were reloaded.
+When you press the `Reload Code` button, all modules that have been changed
+since the last time they were loaded are reloaded. You'll get a status message
+telling you which modules have been reloaded.
+
+To reload all ZCML without a restart, press the 'Reload Code and ZCML' button.
+
+The action to perform is determined via a simple query string, so once you
+did a 'Reload Code' once, you can simply reload the browser page to execute
+the action once again.

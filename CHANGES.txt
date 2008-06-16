@@ -4,6 +4,10 @@ Changelog
 0.7
 ---
 
+- Merged the two distinct views into one called @@reload. Added a somewhat
+  nicer UI to it and explain some of the current limitations on that page.
+  [hannosch]
+
 - Refactored ZCML loading code a bit. Always do an automatic code reload
   before reloading ZCML.
   [hannosch]

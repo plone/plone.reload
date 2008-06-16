@@ -1,31 +1,13 @@
 <configure xmlns="http://namespaces.zope.org/zope"
            xmlns:browser="http://namespaces.zope.org/browser">
 
-  <!-- <browser:page
+  <browser:page
     name="reload"
     for="OFS.interfaces.IApplication"
     permission="zope2.ViewManagementScreens"
     class=".browser.Reload"
     template="reload.pt"
     allowed_interface=".interfaces.IReload"
-    /> -->
-
-  <browser:page
-    name="code_reload"
-    for="OFS.interfaces.IApplication"
-    permission="zope2.ViewManagementScreens"
-    class=".browser.CodeReload"
-    attribute="reload"
-    allowed_interface=".interfaces.ICodeReload"
-    />
-
-  <browser:page
-    name="zcml_reload"
-    for="OFS.interfaces.IApplication"
-    permission="zope2.ViewManagementScreens"
-    class=".browser.ZCMLReload"
-    attribute="reload"
-    allowed_interface=".interfaces.IZCMLReload"
     />
 
 </configure>
