@@ -1,0 +1,57 @@
+TODO
+====
+
+Priority 1
+----------
+
+- Decorate Python's __import__ function to automatically populate our internal
+  registry. This should avoid the need for the somewhat mysterious double
+  reloading behavior. Overriding __import__ seems to be quite common and
+  should be safe. A different option might be to override the sys.modules
+  dictionary and add our custom information to it.
+
+- Catch errors while reloading ZCML. Otherwise your chances of reloading once
+  again are gone, as the reload view isn't available anymore. Something along
+  the lines of 'save state' -> 'reload' -> 'if error: restore else reload'.
+
+
+Priority 2
+----------
+
+- Figure out a way to support decorated methods. We might be able to have a
+  registry of 'patches' that change some of the most common decorators to not
+  only override the original function, but also store it on the class. That
+  should make it possible to retrieve it again later on and still have it as
+  a bound method and not just the function, which we can currently get to.
+
+- Consider automatically disabling plone.reload in production mode. It seems
+  we do have a dependency on Zope 2 thanks to Five BrowserViews anyways, so
+  there's no reason why we shouldn't rely on more Zope 2 behavior. Also add
+  a warning message to Zope startup, that you have the package installed.
+
+- While reloading ZCML, we currently need to minimize all ZODB caches.
+  We only really want to invalidate the local site manager(s) from all caches,
+  so we don't need to warm up the cache again.
+
+- Look into Guido's changes again. At least the support for classmethods
+  should be portable. Also try to figure out why recursive reloading doesn't
+  work. There's also some changes to the scope in which a new function is
+  executed to preserve the right function defaults IIRC.
+
+- Jon Stahl suggested to make the package more useful to non-core developers.
+  As part of that better documentation is a clear requirement. What should be
+  added or made available in general is:
+
+  - Rephrase the Readme to be comprehensible for a less technical audience.
+
+  - Make it clearer what you cannot refresh with plone.reload.
+
+  - Add use cases for when to consider plone.reload as part of your toolbox.
+    For example:
+    
+    - How does it tie into themeing/skinning Plone (add a note about how
+      CSS files and Page Templates are already reloaded without this, i.e.
+      explain Zope development vs. production mode.
+
+    - Developing a simple add-on product (e.g a new Archetype or a policy
+      product... or things that Martin's book generally covers)
