@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.7
----
+0.7 (2008-06-17)
+----------------
 
 - Merged the two distinct views into one called @@reload. Added a somewhat
   nicer UI to it and explain some of the current limitations on that page.
