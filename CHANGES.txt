@@ -4,6 +4,9 @@ Changelog
 0.8
 ---
 
+- Only expose the reload view in Zope 2 development mode.
+  [hannosch]
+
 - In case of errors during ZCML reload, restore the original global site
   manager state, instead of leaving it in a broken state. This allows you to
   fix and retry the ZCML reload as many times as you need.

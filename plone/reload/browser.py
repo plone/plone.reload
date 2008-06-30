@@ -1,6 +1,7 @@
 from zope.interface import implements
 
 from Acquisition import aq_base
+from Globals import DevelopmentMode
 from Products.Five.browser import BrowserView
 
 from plone.reload.code import reload_code
@@ -18,18 +19,27 @@ class Reload(BrowserView):
         self.message = None
 
     def __call__(self):
-        action = self.request.form.get('action')
-        if action is not None:
-            if action == 'code':
-                self.message = self.code_reload()
-            elif action == 'zcml':
-                self.message = self.zcml_reload()
+        if self.available():
+            action = self.request.form.get('action')
+            if action is not None:
+                if action == 'code':
+                    self.message = self.code_reload()
+                elif action == 'zcml':
+                    self.message = self.zcml_reload()
         return self.index()
+
+    def available(self):
+        if DevelopmentMode:
+            return True
+        return False
 
     def status(self):
         return self.message
 
     def code_reload(self):
+        if not self.available():
+            return
+
         reloaded = reload_code()
 
         result = ''
@@ -41,6 +51,9 @@ class Reload(BrowserView):
         return result
 
     def zcml_reload(self):
+        if not self.available():
+            return
+
         # We always do an implicit code reload so we can register all newly
         # added classes.
         reloaded = reload_code()

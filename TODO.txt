@@ -20,11 +20,6 @@ Priority 2
   should make it possible to retrieve it again later on and still have it as
   a bound method and not just the function, which we can currently get to.
 
-- Consider automatically disabling plone.reload in production mode. It seems
-  we do have a dependency on Zope 2 thanks to Five BrowserViews anyways, so
-  there's no reason why we shouldn't rely on more Zope 2 behavior. Also add
-  a warning message to Zope startup, that you have the package installed.
-
 - While reloading ZCML, we currently need to minimize all ZODB caches.
   We only really want to invalidate the local site manager(s) from all caches,
   so we don't need to warm up the cache again.

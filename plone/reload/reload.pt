@@ -27,42 +27,62 @@
         </ul>
     </div>
 
-    <tal:block tal:condition="view/status">
+    <tal:block tal:condition="view/available">
 
-        <h2>Status</h2>
+        <tal:block tal:condition="view/status">
 
-        <pre tal:content="view/status"
-             style="background-color:#ddd; padding:0.5em;
-                    border: 1px black dashed; line-height:1.2em;">
-            Status
-        </pre>
+            <h2>Status</h2>
+
+            <pre tal:content="view/status"
+                 style="background-color:#ddd; padding:0.5em;
+                        border: 1px black dashed; line-height:1.2em;">
+                Status
+            </pre>
+
+        </tal:block>
+
+        <h2>Actions</h2>
+
+        <table>
+            <tr>
+                <td style="padding:3px;">
+                    <form action="#"
+                          method="get"
+                          tal:attributes="action request/getURL">
+
+                        <input type="hidden" name="action" value="code" />
+
+                        <input type="submit" value="Reload Code" />
+
+                    </form>
+                </td>
+                <td style="padding:3px;">
+                    <form action="#"
+                          method="get"
+                          tal:attributes="action request/getURL">
+
+                        <input type="hidden" name="action" value="zcml" />
+
+                        <input type="submit" value="Reload Code and ZCML" />
+
+                    </form>
+                </td>
+            </tr>
+        </table>
 
     </tal:block>
 
-    <h2>Actions</h2>
+    <tal:block tal:condition="not: view/available">
 
-    <table>
-        <tr>
-            <td style="padding:3px;">
-                <form action="#" tal:attributes="action request/getURL" method="get">
+        <h2>Status</h2>
 
-                    <input type="hidden" name="action" value="code" />
+        <div style="background-color:#ff6060;
+                    padding:0.5em; line-height:1.2em;">
+            You are running in production mode. plone.reload is only available
+            in development mode for safety reasons.
+        </div>
 
-                    <input type="submit" value="Reload Code" />
-
-                </form>
-            </td>
-            <td style="padding:3px;">
-                <form action="#" tal:attributes="action request/getURL" method="get">
-
-                    <input type="hidden" name="action" value="zcml" />
-
-                    <input type="submit" value="Reload Code and ZCML" />
-
-                </form>
-            </td>
-        </tr>
-    </table>
+    </tal:block>
 
 </body>
 </html>
