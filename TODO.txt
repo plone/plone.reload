@@ -4,11 +4,18 @@ TODO
 Priority 1
 ----------
 
-- No open tasks!
+- No open priority one tasks :)
 
 
 Priority 2
 ----------
+
+- Look into replacing the manual patches by a general approach based on the
+  zope.testing.cleanup registry. We probably need to omit some of the
+  functions in there from Zope itself (like the ones in Five), though.
+  collective.transmogrifier is a good test case that is currently not
+  supported and would need an explicit patch, but should work fine with the
+  more general approach.
 
 - Figure out a way to support decorated methods. We might be able to have a
   registry of 'patches' that change some of the most common decorators to not

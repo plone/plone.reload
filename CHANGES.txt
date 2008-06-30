@@ -1,8 +1,8 @@
 Changelog
 =========
 
-0.8
----
+0.8 (2008-06-30)
+----------------
 
 - Wrap the setupFinalLogging method of the Zope2 starter objects to initialize
   our internal modified times registry once after Zope is finished loading.
