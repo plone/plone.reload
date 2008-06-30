@@ -4,6 +4,11 @@ Changelog
 0.8
 ---
 
+- In case of errors during ZCML reload, restore the original global site
+  manager state, instead of leaving it in a broken state. This allows you to
+  fix and retry the ZCML reload as many times as you need.
+  [hannosch]
+
 
 0.7 (2008-06-17)
 ----------------

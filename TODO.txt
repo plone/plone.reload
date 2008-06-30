@@ -10,10 +10,6 @@ Priority 1
   should be safe. A different option might be to override the sys.modules
   dictionary and add our custom information to it.
 
-- Catch errors while reloading ZCML. Otherwise your chances of reloading once
-  again are gone, as the reload view isn't available anymore. Something along
-  the lines of 'save state' -> 'reload' -> 'if error: restore else reload'.
-
 
 Priority 2
 ----------
