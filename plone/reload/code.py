@@ -79,3 +79,22 @@ def reload_code():
         MOD_TIMES[path] = (time, module)
         reloaded.append(path)
     return reloaded
+
+
+# setupFinalLogging is the closest I could find, which resembles a
+# `Zope is finished loading event`
+# Let's initialize our modified times registry once.
+
+def wrap_final_logging(func):
+    def init_times(*args, **kwargs):
+        get_mod_times()
+        return func(*args, **kwargs)
+    return init_times
+
+from Zope2.Startup import UnixZopeStarter
+from Zope2.Startup import WindowsZopeStarter
+
+UnixZopeStarter.setupFinalLogging = \
+    wrap_final_logging(UnixZopeStarter.setupFinalLogging)
+WindowsZopeStarter.setupFinalLogging = \
+    wrap_final_logging(WindowsZopeStarter.setupFinalLogging)

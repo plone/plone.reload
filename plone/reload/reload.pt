@@ -15,11 +15,6 @@
         not yet as good as it can be. Current limitations include:
         <ul style="margin:0.5em;">
             <li>
-                You need to 'reload' your code once for plone.reload to track
-                it. Do that before doing the first changes to it, but after it
-                has been loaded, i.e. put into sys.modules.
-            </li>
-            <li>
                 Currently plone.reload doesn't reload any decorated methods
                 correctly, so apply decorators (like the ones from
                 plone.memoize or property) once finished with your code.

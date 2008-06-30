@@ -4,11 +4,7 @@ TODO
 Priority 1
 ----------
 
-- Decorate Python's __import__ function to automatically populate our internal
-  registry. This should avoid the need for the somewhat mysterious double
-  reloading behavior. Overriding __import__ seems to be quite common and
-  should be safe. A different option might be to override the sys.modules
-  dictionary and add our custom information to it.
+- No open tasks!
 
 
 Priority 2

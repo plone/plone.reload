@@ -4,6 +4,12 @@ Changelog
 0.8
 ---
 
+- Wrap the setupFinalLogging method of the Zope2 starter objects to initialize
+  our internal modified times registry once after Zope is finished loading.
+  This is the closest I could find that resembles a `Zope is finished loading`
+  event and should help to remove the double-reload behavior.
+  [hannosch]
+
 - Only expose the reload view in Zope 2 development mode.
   [hannosch]
 
