@@ -46,3 +46,9 @@ Priority 2
 
     - Developing a simple add-on product (e.g a new Archetype or a policy
       product... or things that Martin's book generally covers)
+
+Priority 3
+----------
+
+- Figure out why we sometimes end up with both the py and pyc file in the
+  registry and the status messages.
