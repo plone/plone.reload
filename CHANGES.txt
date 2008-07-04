@@ -4,6 +4,10 @@ Changelog
 0.9
 ---
 
+- Removed the manual cleanup approach for extra registries populated by ZCML
+  parsing. Instead we use the registry of cleanup functions inside
+  zope.testing.cleanup to automatically pick up all cleaning functions.
+  [hannosch]
 
 0.8 (2008-06-30)
 ----------------
