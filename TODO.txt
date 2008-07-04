@@ -43,8 +43,12 @@ Priority 2
     - Developing a simple add-on product (e.g a new Archetype or a policy
       product... or things that Martin's book generally covers)
 
+
 Priority 3
 ----------
+
+- Try to debug why we sometimes don't get module level changes like new
+  imports or constants.
 
 - Figure out why we sometimes end up with both the py and pyc file in the
   registry and the status messages.
