@@ -16,8 +16,8 @@ Priority 2
   should make it possible to retrieve it again later on and still have it as
   a bound method and not just the function, which we can currently get to.
 
-- Wichert suggested to make allow you to select the files you want to reload
-  TTW instead of reloading all of them all the time.
+- Wichert suggested to allow you to select the files you want to reload TTW,
+  instead of reloading all of them all the time.
 
 - While reloading ZCML, we currently need to minimize all ZODB caches.
   We only really want to invalidate the local site manager(s) from all caches,

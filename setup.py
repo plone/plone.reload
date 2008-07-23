@@ -14,7 +14,6 @@ long_description=(
         read('CHANGES.txt')
     )
 
-
 setup(name=name,
       version=version,
       description="Configuration and code reload without Zope server restarts.",
