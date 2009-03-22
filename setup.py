@@ -3,7 +3,7 @@ import os
 from setuptools import setup, find_packages
 
 name = 'plone.reload'
-version = '1.0'
+version = '0.10'
 
 def read(*rnames):
     return open(os.path.join(os.path.dirname(__file__), *rnames)).read()

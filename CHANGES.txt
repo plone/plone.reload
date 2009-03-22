@@ -1,8 +1,14 @@
 Changelog
 =========
 
-1.0
----
+0.10 (2009-03-22)
+-----------------
+
+- Do not remove attributes from classes when reloading. ZCML directives and
+  other wiring is liable to add attributes to class that will then disappear
+  on reload. This means that if you have removed a class attribute, it will
+  *not* disappear on reload. In this case: restart. :)
+  [optilude]
 
 
 0.9 (2008-07-23)

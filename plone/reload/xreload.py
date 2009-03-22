@@ -18,8 +18,6 @@ import sys
 import types
 import inspect
 
-import ExtensionClass
-
 import zope.component
 
 class Reloader(object):
@@ -161,8 +159,15 @@ def _update_class(oldclass, newclass):
     newnames = set(newdict)
     for name in newnames - oldnames:
         setattr(oldclass, name, newdict[name])
-    for name in oldnames - newnames:
-        delattr(oldclass, name)
+
+    # Note: We do not delete attributes, because various ZCML directives,
+    # grokkers and other wiring add class attributes during startup that
+    # would get lost if we did this. Note that attributes will still be
+    # overwritten if they've changed.
+    # 
+    # for name in oldnames - newnames:
+    #     delattr(oldclass, name)
+
     for name in oldnames & newnames - set(["__dict__", "__doc__"]):
         new = getattr(newclass, name)
         old = getattr(oldclass, name, None)
