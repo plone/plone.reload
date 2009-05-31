@@ -1,6 +1,13 @@
 Changelog
 =========
 
+0.11 (2009-05-30)
+-----------------
+
+- Added the z3c.autoinclude entry point so that plone.reload is automatically
+  loaded on Plone 3.3 and above.
+  [optilude]
+
 0.10 (2009-03-22)
 -----------------
 
