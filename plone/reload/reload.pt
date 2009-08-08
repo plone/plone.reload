@@ -10,18 +10,6 @@
 
     <h1>plone.reload</h1>
 
-    <div style="background-color:#eee; padding:0.5em; line-height:1.2em;">
-        Note: plone.reload is still experimental and some functionality is
-        not yet as good as it can be. Current limitations include:
-        <ul style="margin:0.5em;">
-            <li>
-                Currently plone.reload doesn't reload any decorated methods
-                correctly, so apply decorators (like the ones from
-                plone.memoize or property) once finished with your code.
-            </li>
-        </ul>
-    </div>
-
     <tal:block tal:condition="view/available">
 
         <tal:block tal:condition="view/status">

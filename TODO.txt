@@ -10,12 +10,6 @@ Priority 1
 Priority 2
 ----------
 
-- Figure out a way to support decorated methods. We might be able to have a
-  registry of 'patches' that change some of the most common decorators to not
-  only override the original function, but also store it on the class. That
-  should make it possible to retrieve it again later on and still have it as
-  a bound method and not just the function, which we can currently get to.
-
 - Wichert suggested to allow you to select the files you want to reload TTW,
   instead of reloading all of them all the time.
 

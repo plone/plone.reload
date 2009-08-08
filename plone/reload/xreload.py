@@ -20,6 +20,11 @@ import inspect
 
 import zope.component
 
+
+class ClosureChanged(Exception):
+    pass
+
+
 class Reloader(object):
     """Reload a module in place, updating classes, methods and functions.
 
@@ -135,8 +140,23 @@ class Reloader(object):
         return newobj
 
 
+def _closure_changed(oldcl, newcl):
+    old = oldcl is None and -1 or len(oldcl)
+    new = newcl is None and -1 or len(newcl)
+    if old != new:
+        return True
+    if old > 0 and new > 0:
+        for i in range(old):
+            same = oldcl[i] == newcl[i]
+            if not same:
+                return True
+    return False
+
+
 def _update_function(oldfunc, newfunc):
     """Update a function object."""
+    if _closure_changed(oldfunc.func_closure, newfunc.func_closure):
+        raise ClosureChanged
     oldfunc.func_code = newfunc.func_code
     oldfunc.func_defaults = newfunc.func_defaults
     # XXX What else?
@@ -169,19 +189,28 @@ def _update_class(oldclass, newclass):
     #     delattr(oldclass, name)
 
     for name in oldnames & newnames - set(["__dict__", "__doc__"]):
-        new = getattr(newclass, name)
-        old = getattr(oldclass, name, None)
-        if new == old:
-            continue
-        if old is None:
-            setattr(oldclass, name, new)
-            continue
-        if isinstance(new, types.MethodType):
-            _update_method(old, new)
-        elif isinstance(new, types.FunctionType):
-            # __init__ is a function
-            _update_function(old, new)
-        else:
-            # Fallback to just replace the item
-            setattr(oldclass, name, new)
+        try:
+            new = getattr(newclass, name)
+            old = getattr(oldclass, name, None)
+            # if new == old:
+            #     continue
+            if old is None:
+                setattr(oldclass, name, new)
+                continue
+            if isinstance(new, types.MethodType):
+                if isinstance(old, property) and not isinstance(new, property):
+                    # Removing a decorator
+                    setattr(oldclass, name, new.im_func)
+                else:
+                    _update_method(old, new)
+            elif isinstance(new, types.FunctionType):
+                # __init__ is a function
+                _update_function(old, new)
+            else:
+                # Fallback to just replace the item
+                setattr(oldclass, name, new)
+        except ClosureChanged:
+            # If the closure changed, we need to replace the entire function
+            setattr(oldclass, name, new.im_func)
+
     return oldclass
