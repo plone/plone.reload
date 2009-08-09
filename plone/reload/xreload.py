@@ -76,7 +76,8 @@ class Reloader(object):
                 source = source.strip()+'\n'
                 code = compile(source, filename, "exec")
             else:
-                code = marshal.load(stream)
+                # I have no idea how to test this one
+                code = marshal.load(stream) #pragma NO COVER
         finally:
             if stream:
                 stream.close()
@@ -127,7 +128,10 @@ class Reloader(object):
 
         # XXX Support class methods, static methods, other decorators
         # Not something we recognize, just give up
-        return newobj
+        # This line is currently not hit at all, since we only call this on
+        # a module. It's pretty hard to have a non-function, non-class entity
+        # in a module, which has a __module__ pointer to the module itself
+        return newobj #pragma NO COVER
 
 
 def _closure_changed(oldcl, newcl):

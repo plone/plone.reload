@@ -51,9 +51,24 @@ class TestReload(unittest.TestCase):
 
 class TestReloadModule(TestReload):
 
+    def test_stdlib(self):
+        import sre_constants
+        r = xreload.Reloader(sre_constants)
+        r.reload()
+
     def test_immutable_constant_added(self):
         self.reload("FOO = 15")
         self.assertEquals(self.module.FOO, 15)
+
+    def test_immutable_constant_changed(self):
+        self.reload("FOO = 15")
+        self.reload("FOO = 16")
+        self.assertEquals(self.module.FOO, 16)
+
+    def test_immutable_constant_removed(self):
+        self.reload("FOO = 15")
+        self.reload("")
+        self.failUnless(getattr(self.module, 'FOO', None) is None)
 
     def test_mutable_constant_added(self):
         self.reload("FOO = [1, 2]")
@@ -266,13 +281,3 @@ class IFoo(Interface):
         self.failUnless('bar' in self.module.IFoo.names())
         # Reloading interfaces doesn't work yet at all
         self.failIf('baz' in self.module.IFoo.names())
-
-
-def test_modules():
-    suite = unittest.TestSuite()
-    suite.addTestSuite(TestReloadModule)
-    suite.addTestSuite(TestReloadFunction)
-    suite.addTestSuite(TestReloadClass)
-    suite.addTestSuite(TestReloadDecorator)
-    suite.addTestSuite(TestReloadInterface)
-    return suite

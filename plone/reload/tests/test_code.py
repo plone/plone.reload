@@ -99,10 +99,3 @@ class TestTimes(unittest.TestCase):
             self.assertEquals(len(reload_code()), 1)
         finally:
             MOD_TIMES[our_package] = our_entry
-
-
-def test_modules():
-    suite = unittest.TestSuite()
-    suite.addTestSuite(TestSearch)
-    suite.addTestSuite(TestTimes)
-    return suite

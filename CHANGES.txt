@@ -4,6 +4,9 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+- Got the test coverage for the code reloading part up to 100%.
+  [hannosch]
+
 - Fixed reloading of the module scope. The func_globals of functions is now
   updated with new names introduced into the module scope, so adding new
   import statements will work.
