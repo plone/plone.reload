@@ -251,6 +251,22 @@ class Foo(object):
         self.assertEquals(self.module.Foo().foo(5), 7)
 
 
+class TestReloadInterface(TestReload):
+
+    base = '''\
+from zope.interface import Interface
+class IFoo(Interface):
+    def bar():
+        """A true bar."""
+'''
+
+    def test_interface_method_added(self):
+        self.reload(self.base)
+        self.reload(self.base + '\tdef baz():\n\t\t"""Maybe a baz?"""')
+        self.failUnless('bar' in self.module.IFoo.names())
+        # Reloading interfaces doesn't work yet at all
+        self.failIf('baz' in self.module.IFoo.names())
+
 
 def test_modules():
     suite = unittest.TestSuite()
@@ -258,4 +274,5 @@ def test_modules():
     suite.addTestSuite(TestReloadFunction)
     suite.addTestSuite(TestReloadClass)
     suite.addTestSuite(TestReloadDecorator)
+    suite.addTestSuite(TestReloadInterface)
     return suite
