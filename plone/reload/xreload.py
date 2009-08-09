@@ -195,9 +195,6 @@ def _update_class(oldclass, newclass):
         try:
             new = getattr(newclass, name)
             old = getattr(oldclass, name, None)
-            if old is None:
-                setattr(oldclass, name, new)
-                continue
             if isinstance(new, types.MethodType):
                 if isinstance(old, property) and not isinstance(new, property):
                     # Removing a decorator
