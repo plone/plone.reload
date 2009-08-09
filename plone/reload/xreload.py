@@ -86,16 +86,9 @@ class Reloader(object):
                  '__doc__': modns['__doc__']}
         exec(code, tmpns)
         # Now we get to the hard part
-        oldnames = set(modns)
-        newnames = set(tmpns)
-        # Add newly introduced names
-        for name in newnames - oldnames:
-            modns[name] = tmpns[name]
-        # Delete names that are no longer current
-        for name in oldnames - newnames - set(["__name__"]):
-            del modns[name]
+        _update_scope(modns, tmpns)
         # Now update the rest in place
-        for name in oldnames & newnames:
+        for name in set(modns) & set(tmpns):
             modns[name] = self._update(modns[name], tmpns[name])
         # Done!
         return self.mod
@@ -150,16 +143,16 @@ def _closure_changed(oldcl, newcl):
     return False
 
 
-def _update_globals(oldglob, newglob):
-    oldnames = set(oldglob)
-    newnames = set(newglob)
+def _update_scope(oldscope, newscope):
+    oldnames = set(oldscope)
+    newnames = set(newscope)
     # Add newly introduced names
     for name in newnames - oldnames:
-        oldglob[name] = newglob[name]
+        oldscope[name] = newscope[name]
     # Delete names that are no longer current
     for name in oldnames - newnames:
         if not name.startswith('__'):
-            del oldglob[name]
+            del oldscope[name]
 
 
 def _update_function(oldfunc, newfunc):
@@ -168,7 +161,7 @@ def _update_function(oldfunc, newfunc):
         raise ClosureChanged
     oldfunc.func_code = newfunc.func_code
     oldfunc.func_defaults = newfunc.func_defaults
-    _update_globals(oldfunc.func_globals, newfunc.func_globals)
+    _update_scope(oldfunc.func_globals, newfunc.func_globals)
     # XXX What else?
     return oldfunc
 
