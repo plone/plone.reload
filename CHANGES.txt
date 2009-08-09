@@ -4,6 +4,11 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+- Fixed reloading of the module scope. The func_globals of functions is now
+  updated with new names introduced into the module scope, so adding new
+  import statements will work.
+  [hannosch]
+
 - Specified package dependencies, added development buildout and added
   extensive test coverage.
   [hannosch]

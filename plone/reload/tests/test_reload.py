@@ -73,6 +73,11 @@ class TestReloadModule(TestReload):
         )
         self.assertEquals(self.module.Foo().bar, 1)
 
+    def test_import_added(self):
+        self.reload("def foo(): pass")
+        self.reload("import os\ndef foo(): return os.pathsep")
+        self.assertEquals(self.module.foo(), os.pathsep)
+
 
 class TestReloadFunction(TestReload):
 

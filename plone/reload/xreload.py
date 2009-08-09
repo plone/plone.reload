@@ -150,12 +150,21 @@ def _closure_changed(oldcl, newcl):
     return False
 
 
+def _update_globals(oldglob, newglob):
+    oldnames = set(oldglob)
+    newnames = set(newglob)
+    # Add newly introduced names
+    for name in newnames - oldnames:
+        oldglob[name] = newglob[name]
+
+
 def _update_function(oldfunc, newfunc):
     """Update a function object."""
     if _closure_changed(oldfunc.func_closure, newfunc.func_closure):
         raise ClosureChanged
     oldfunc.func_code = newfunc.func_code
     oldfunc.func_defaults = newfunc.func_defaults
+    _update_globals(oldfunc.func_globals, newfunc.func_globals)
     # XXX What else?
     return oldfunc
 
