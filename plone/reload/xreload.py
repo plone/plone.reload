@@ -156,6 +156,10 @@ def _update_globals(oldglob, newglob):
     # Add newly introduced names
     for name in newnames - oldnames:
         oldglob[name] = newglob[name]
+    # Delete names that are no longer current
+    for name in oldnames - newnames:
+        if not name.startswith('__'):
+            del oldglob[name]
 
 
 def _update_function(oldfunc, newfunc):
