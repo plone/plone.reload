@@ -1,4 +1,8 @@
-from zope.app.component.hooks import setSite
+try:
+    from zope.site.hooks import setSite
+except ImportError:
+    from zope.app.component.hooks import setSite
+
 from zope.component import getGlobalSiteManager
 from zope.testing import cleanup
 
@@ -13,6 +17,7 @@ CORE_CLEANUPS = frozenset([
     'zope.schema.vocabulary',
     'zope.security.management',
     'zope.security.checker',
+    'zope.site.hooks',
     'Products.Five.zcml',
     'Products.Five.eventconfigure',
     'Products.Five.fiveconfigure',

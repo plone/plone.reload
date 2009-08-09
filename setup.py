@@ -34,6 +34,11 @@ setup(name=name,
       zip_safe=False,
       install_requires=[
           'setuptools',
+          'zope.component',
+          'zope.interface',
+          'zope.testing',
+          'Acquisition',
+          'Zope2',
       ],
       entry_points="""
       [z3c.autoinclude.plugin]

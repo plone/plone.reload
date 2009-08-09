@@ -4,11 +4,10 @@ import sys
 from os.path import abspath
 from os.path import isfile
 
+from plone.reload import config
 from plone.reload.xreload import Reloader
 
 _marker = object()
-
-EXCLUDE_SITE_PACKAGES = True
 MOD_TIMES = dict()
 
 
@@ -29,7 +28,7 @@ def search_modules():
             if f is None:
                 continue
             f = abspath(f)
-            if EXCLUDE_SITE_PACKAGES:
+            if config.EXCLUDE_SITE_PACKAGES:
                 if in_search_path(f):
                     modules.append((f, module))
             else:
@@ -46,10 +45,7 @@ def get_mod_time(path):
             path = source
     # protect against missing and unaccessible files
     if isfile(path):
-        try:
-            mtime = os.stat(path)[8]
-        except (OSError, IOError):
-            pass
+        mtime = os.stat(path)[8]
     return mtime
 
 
@@ -85,7 +81,7 @@ def reload_code():
 # `Zope is finished loading event`
 # Let's initialize our modified times registry once.
 
-def wrap_final_logging(func):
+def setup_mod_times(func):
     def init_times(*args, **kwargs):
         get_mod_times()
         return func(*args, **kwargs)
@@ -95,6 +91,6 @@ from Zope2.Startup import UnixZopeStarter
 from Zope2.Startup import WindowsZopeStarter
 
 UnixZopeStarter.setupFinalLogging = \
-    wrap_final_logging(UnixZopeStarter.setupFinalLogging)
+    setup_mod_times(UnixZopeStarter.setupFinalLogging)
 WindowsZopeStarter.setupFinalLogging = \
-    wrap_final_logging(WindowsZopeStarter.setupFinalLogging)
+    setup_mod_times(WindowsZopeStarter.setupFinalLogging)

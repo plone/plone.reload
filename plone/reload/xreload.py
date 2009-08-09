@@ -115,16 +115,13 @@ class Reloader(object):
         if type(oldobj) is not type(newobj):
             # Cop-out: if the type changed, give up
             return newobj
-        if hasattr(newobj, "__reload_update__"):
-            # Provide a hook for updating
-            return newobj.__reload_update__(oldobj)
 
         new_module = getattr(newobj, '__module__', None)
         if new_module != self.mod.__name__:
             # Do not update objects in-place that have been imported.
             # Just update their references.
             return newobj
-        
+
         if isinstance(newobj, zope.interface.interface.Specification):
             # XXX we can't update interfaces because their internal
             # data structures break. We'll have to implement the reload method
@@ -192,8 +189,6 @@ def _update_class(oldclass, newclass):
         try:
             new = getattr(newclass, name)
             old = getattr(oldclass, name, None)
-            # if new == old:
-            #     continue
             if old is None:
                 setattr(oldclass, name, new)
                 continue
