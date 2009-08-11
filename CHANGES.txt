@@ -1,6 +1,10 @@
 Changelog
 =========
 
+1.0 (unreleased)
+----------------
+
+
 1.0b1 (2009-08-11)
 ------------------
 
@@ -61,7 +65,6 @@ Changelog
   fix and retry the ZCML reload as many times as you need.
   [hannosch]
 
-
 0.7 (2008-06-17)
 ----------------
 
@@ -76,7 +79,6 @@ Changelog
 - Removed all blacklisting code.
   [hannosch]
 
-
 0.6 (2008-06-11)
 ----------------
 
@@ -84,7 +86,6 @@ Changelog
   noticeable anyway, and it can block too much (especially if plone.reload
   is being used in a lib/python style deployment rather than as an egg).
   [optilude]
-
 
 0.5 (2008-05-24)
 ----------------
@@ -97,7 +98,6 @@ Changelog
   caused lots of modules not to be found.
   [hannosch]
 
-
 0.4 (2008-03-01)
 ----------------
 
@@ -107,7 +107,6 @@ Changelog
 - Integrated xreload.py from RefreshNG and added a first working version of a
   general manual code reload feature.
   [hannosch]
-
 
 0.3 (2008-02-21)
 ----------------
@@ -120,13 +119,11 @@ Changelog
 - Added cleanup for CMFCore and PAS.
   [hannosch]
 
-
 0.2 (2008-01-25)
 ----------------
 
 - Added compatibility with Zope 2.10 / Plone 3.0.
   [hannosch]
-
 
 0.1 (2008-01-25)
 ----------------
