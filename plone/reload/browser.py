@@ -1,6 +1,7 @@
 from zope.interface import implements
 
 from Acquisition import aq_base
+import Globals
 from Products.Five.browser import BrowserView
 
 from plone.reload.code import reload_code
@@ -28,8 +29,7 @@ class Reload(BrowserView):
         return self.index()
 
     def available(self):
-        from plone.reload.config import ENABLED
-        if ENABLED:
+        if Globals.DevelopmentMode:
             return True
         return False
 

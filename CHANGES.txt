@@ -4,6 +4,10 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+- Avoid the `ENABLED` config flag and check against Globals.DevelopmentMode in
+  the browser view.
+  [hannosch]
+
 - Make sure the import of the Globals module happens after the variable has
   been set. This should make it compatible with Zope 2.10.9+.
   [hannosch]
