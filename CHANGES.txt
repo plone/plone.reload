@@ -1,7 +1,7 @@
 Changelog
 =========
 
-1.0 (unreleased)
+1.0 (2009-10-11)
 ----------------
 
 - Avoid the `ENABLED` config flag and check against Globals.DevelopmentMode in
