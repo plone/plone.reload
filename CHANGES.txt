@@ -4,6 +4,9 @@ Changelog
 1.0 (unreleased)
 ----------------
 
+- Make sure the import of the Globals module happens after the variable has
+  been set. This should make it compatible with Zope 2.10.9+.
+  [hannosch]
 
 1.0b1 (2009-08-11)
 ------------------

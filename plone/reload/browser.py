@@ -4,7 +4,6 @@ from Acquisition import aq_base
 from Products.Five.browser import BrowserView
 
 from plone.reload.code import reload_code
-from plone.reload.config import ENABLED
 from plone.reload.interfaces import IReload
 from plone.reload.zcml import reload_zcml
 
@@ -29,6 +28,7 @@ class Reload(BrowserView):
         return self.index()
 
     def available(self):
+        from plone.reload.config import ENABLED
         if ENABLED:
             return True
         return False
