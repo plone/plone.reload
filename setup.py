@@ -38,6 +38,7 @@ setup(name=name,
           'zope.interface',
           'zope.testing',
           'Acquisition',
+          'Products.CMFCore',
           'Zope2',
       ],
       entry_points="""

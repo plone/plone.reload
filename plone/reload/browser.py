@@ -1,11 +1,13 @@
 from zope.interface import implements
 
 from Acquisition import aq_base
+from Acquisition import aq_inner
 import Globals
 from Products.Five.browser import BrowserView
 
 from plone.reload.code import reload_code
 from plone.reload.interfaces import IReload
+from plone.reload.template import reload_template
 from plone.reload.zcml import reload_zcml
 
 
@@ -19,13 +21,15 @@ class Reload(BrowserView):
         self.message = None
 
     def __call__(self):
-        if self.available():
-            action = self.request.form.get('action')
-            if action is not None:
+        action = self.request.form.get('action')
+        if action is not None:
+            if self.available():
                 if action == 'code':
                     self.message = self.code_reload()
                 elif action == 'zcml':
                     self.message = self.zcml_reload()
+            if action == 'template':
+                self.message = self.template_reload()
         return self.index()
 
     def available(self):
@@ -35,6 +39,12 @@ class Reload(BrowserView):
 
     def status(self):
         return self.message
+
+    def template_reload(self):
+        reloaded = reload_template(aq_inner(self.context))
+        if reloaded > 0:
+            return '%s templates reloaded.' % reloaded
+        return 'No templates reloaded.'
 
     def code_reload(self):
         if not self.available():

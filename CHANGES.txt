@@ -1,9 +1,12 @@
 Changelog
 =========
 
-1.0.1 (unreleased)
-------------------
+1.1 (2009-10-19)
+----------------
 
+- Added CMF specific functionality: We support explicitly reloading all file
+  system based objects from skins folders while running in production mode.
+  [hannosch]
 
 1.0 (2009-10-11)
 ----------------
