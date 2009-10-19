@@ -44,8 +44,5 @@ Priority 2
 Priority 3
 ----------
 
-- Try to debug why we sometimes don't get module level changes like new
-  imports or constants.
-
 - Figure out why we sometimes end up with both the py and pyc file in the
   registry and the status messages.
