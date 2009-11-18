@@ -4,6 +4,8 @@ Changelog
 1.2 (unreleased)
 ----------------
 
+- Added test_suite functions to the test modules.
+  [hannosch]
 
 1.1 (2009-10-19)
 ----------------

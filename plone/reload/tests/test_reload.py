@@ -281,3 +281,15 @@ class IFoo(Interface):
         self.failUnless('bar' in self.module.IFoo.names())
         # Reloading interfaces doesn't work yet at all
         self.failIf('baz' in self.module.IFoo.names())
+
+
+def test_suite():
+    from unittest import TestSuite, makeSuite
+    suite = TestSuite()
+    suite.addTest(makeSuite(TestReload))
+    suite.addTest(makeSuite(TestReloadModule))
+    suite.addTest(makeSuite(TestReloadFunction))
+    suite.addTest(makeSuite(TestReloadClass))
+    suite.addTest(makeSuite(TestReloadDecorator))
+    suite.addTest(makeSuite(TestReloadInterface))
+    return suite
