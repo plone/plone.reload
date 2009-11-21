@@ -4,6 +4,9 @@ Changelog
 1.2 (unreleased)
 ----------------
 
+- Moved the template reloading support into an extra.
+  [hannosch]
+
 - Added test_suite functions to the test modules.
   [hannosch]
 

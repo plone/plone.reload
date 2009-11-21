@@ -38,9 +38,11 @@ setup(name=name,
           'zope.interface',
           'zope.testing',
           'Acquisition',
-          'Products.CMFCore',
           'Zope2',
       ],
+      extras_require = dict(
+        cmf = ['Products.CMFCore'],
+      ),
       entry_points="""
       [z3c.autoinclude.plugin]
       target = plone

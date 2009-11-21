@@ -33,7 +33,8 @@
 
     <table>
         <tr>
-            <td style="padding:3px;" tal:condition="view/available">
+            <td style="padding:3px;"
+                tal:condition="view/available">
                 <form action="#"
                       method="get"
                       tal:attributes="action request/getURL">
@@ -44,7 +45,8 @@
 
                 </form>
             </td>
-            <td style="padding:3px;" tal:condition="view/available">
+            <td style="padding:3px;"
+                tal:condition="view/available">
                 <form action="#"
                       method="get"
                       tal:attributes="action request/getURL">
@@ -55,7 +57,8 @@
 
                 </form>
             </td>
-            <td style="padding:3px;" tal:condition="not:view/available">
+            <td style="padding:3px;"
+                tal:condition="view/template_reload_available">
                 <form action="#"
                       method="get"
                       tal:attributes="action request/getURL">

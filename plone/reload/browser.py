@@ -7,8 +7,13 @@ from Products.Five.browser import BrowserView
 
 from plone.reload.code import reload_code
 from plone.reload.interfaces import IReload
-from plone.reload.template import reload_template
 from plone.reload.zcml import reload_zcml
+
+HAS_CMF = True
+try:
+    from plone.reload.template import reload_template
+except ImportError:
+    HAS_CMF = False
 
 
 class Reload(BrowserView):
@@ -40,11 +45,16 @@ class Reload(BrowserView):
     def status(self):
         return self.message
 
+    def template_reload_available(self):
+        return HAS_CMF and not Globals.DevelopmentMode
+
     def template_reload(self):
-        reloaded = reload_template(aq_inner(self.context))
-        if reloaded > 0:
-            return '%s templates reloaded.' % reloaded
-        return 'No templates reloaded.'
+        if HAS_CMF:
+            reloaded = reload_template(aq_inner(self.context))
+            if reloaded > 0:
+                return '%s templates reloaded.' % reloaded
+            return 'No templates reloaded.'
+        return 'CMF is not installed. Templates cannot be reloaded.'
 
     def code_reload(self):
         if not self.available():
