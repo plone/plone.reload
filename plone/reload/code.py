@@ -49,7 +49,7 @@ def get_mod_time(path):
     return mtime
 
 
-def get_mod_times():
+def get_mod_times(event=None):
     global MOD_TIMES
     for path, module in search_modules():
         if path not in MOD_TIMES:
@@ -77,9 +77,10 @@ def reload_code():
     return reloaded
 
 
-# setupFinalLogging is the closest I could find, which resembles a
-# `Zope is finished loading event`
-# Let's initialize our modified times registry once.
+# Before Zope 2.12 there was no event for process startup. We therefor hook
+# ourselves into the last function called during the startup procedure. In
+# 2.12 the logging setup was moved up in the startup logic, so our monkey
+# patch was only applied after the function had already been called.
 
 def setup_mod_times(func):
     def init_times(*args, **kwargs):
@@ -87,10 +88,13 @@ def setup_mod_times(func):
         return func(*args, **kwargs)
     return init_times
 
-from Zope2.Startup import UnixZopeStarter
-from Zope2.Startup import WindowsZopeStarter
+try:
+    import zope.processlifetime
+except ImportError:
+    from Zope2.Startup import UnixZopeStarter
+    from Zope2.Startup import WindowsZopeStarter
 
-UnixZopeStarter.setupFinalLogging = \
-    setup_mod_times(UnixZopeStarter.setupFinalLogging)
-WindowsZopeStarter.setupFinalLogging = \
-    setup_mod_times(WindowsZopeStarter.setupFinalLogging)
+    UnixZopeStarter.setupFinalLogging = \
+        setup_mod_times(UnixZopeStarter.setupFinalLogging)
+    WindowsZopeStarter.setupFinalLogging = \
+        setup_mod_times(WindowsZopeStarter.setupFinalLogging)

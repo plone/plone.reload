@@ -4,6 +4,11 @@ Changelog
 1.3 (Unreleased)
 ----------------
 
+- Use a different hook for providing the initial setup of tracked code files.
+  In Zope 2.12+ there's a proper event published right before the process has
+  started. If this is available we use it, instead of our no longer working
+  approach to hook ``setupFinalLogging``.
+  [hannosch]
 
 1.2 (2009-11-21)
 ----------------
