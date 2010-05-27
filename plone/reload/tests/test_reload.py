@@ -1,4 +1,5 @@
 import os
+import shutil
 import tempfile
 import unittest
 
@@ -231,7 +232,48 @@ class TestReloadClass(TestReload):
         self.reload(base + "\t\tdef bar(a): return a + a\n\t\treturn bar(a)")
         self.reload(base + "\t\tdef bar(a): return a + 2\n\t\treturn bar(a)")
         self.assertEquals(self.module.Foo().foo(5), 7)
-
+    
+    def test_view_page_template_file(self):
+        
+        # We can't use the fake module approach here since the problem is that
+        # reload screws up the BoundPageTemplateFile. Do it the hard way 
+        # instead
+        
+        origModule = os.path.join(os.path.dirname(__file__), 'viewtest', '_orig.py')
+        newModule = os.path.join(os.path.dirname(__file__), 'viewtest', 'view.py')
+        
+        shutil.copyfile(origModule, newModule)
+        
+        try:
+            
+            import plone.reload.tests.viewtest.view
+        
+            context = object()
+            request = object()
+        
+            view = plone.reload.tests.viewtest.view.Foo(context, request)
+            template = view.template
+            self.failUnless(template.im_self is view)
+        
+            moduleContents = open(newModule).read()
+            moduleContents.replace('# -*- placeholder -*-', 'foo = 1')
+            open(newModule, 'w').write(moduleContents)
+        
+            reloader = xreload.Reloader(plone.reload.tests.viewtest.view)
+            reloader.reload()
+        
+            view = plone.reload.tests.viewtest.view.Foo(context, request)
+            template = view.template
+            self.failUnless(template.im_self is view)
+        
+        finally:
+            os.unlink(newModule)
+            try:
+                os.unlink(newModule + 'c')
+            except IOError:
+                pass
+        
+    
 class TestReloadDecorator(TestReload):
 
     base = """\
