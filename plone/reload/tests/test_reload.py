@@ -27,12 +27,11 @@ class TestReload(unittest.TestCase):
         return temp.name, module
 
     def reload(self, text=None):
-        module = self.module
         if text is not None:
             temp = open(self.name, mode='w')
             temp.write(text)
             temp.close()
-        newmodule = self.reloader.reload()
+        self.reloader.reload()
 
     def setUp(self):
         self.name, self.module = self._create_temp()
@@ -85,8 +84,7 @@ class TestReloadModule(TestReload):
 
     def test_class_added(self):
         self.reload(
-            "class Foo(object):\n\tdef __init__(self):\n\t\tself.bar = 1"
-        )
+            "class Foo(object):\n\tdef __init__(self):\n\t\tself.bar = 1")
         self.assertEquals(self.module.Foo().bar, 1)
 
     def test_import_added(self):
@@ -239,13 +237,14 @@ class TestReloadClass(TestReload):
         # reload screws up the BoundPageTemplateFile. Do it the hard way
         # instead
 
-        origModule = os.path.join(os.path.dirname(__file__), 'viewtest', '_orig.py')
-        newModule = os.path.join(os.path.dirname(__file__), 'viewtest', 'view.py')
+        here = os.path.join(os.path.dirname(__file__), 'viewtest')
+
+        origModule = os.path.join(here, '_orig.py')
+        newModule = os.path.join(here, 'view.py')
 
         shutil.copyfile(origModule, newModule)
 
         try:
-
             import plone.reload.tests.viewtest.view
 
             context = object()
