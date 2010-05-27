@@ -1,4 +1,5 @@
 import os
+import sys
 import types
 import unittest
 
@@ -10,8 +11,16 @@ class TestSearch(unittest.TestCase):
     def test_in_search_path(self):
         from plone.reload.code import in_search_path
         self.failUnless(in_search_path('/home/foo/plone.reload'))
-        self.failIf(in_search_path('/opt/python/lib/python2.6/site-packages'))
-        self.failIf(in_search_path('/opt/eggs/plone.reload-0.11-py2.4.egg'))
+        prefix = sys.prefix
+        s1 = os.path.join(prefix, 'lib', 'site-packages')
+        self.failIf(in_search_path(s1))
+        python = 'python-%s.%s' % sys.version_info[:2]
+        s2 = os.path.join(prefix, 'lib', python, 'site-packages')
+        self.failIf(in_search_path(s2))
+        import setuptools
+        egg = os.path.dirname(setuptools.__file__)
+        if '.egg' in egg:
+            self.failIf(in_search_path(egg))
 
     def test_search_modules(self):
         from plone.reload.code import search_modules

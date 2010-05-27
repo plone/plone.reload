@@ -4,6 +4,9 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Fixed some tests that relied on a specific directory layout.
+  [hannosch]
+
 - Fixed a bug in dealing with class descriptors, like Five's BoundTemplateFile.
   We replaced the descriptor with the descriptor result, leading to strange
   problems. We check for those by looking directly into the ``__dict__`` and
