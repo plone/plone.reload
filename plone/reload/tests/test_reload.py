@@ -242,12 +242,12 @@ class TestReloadClass(TestReload):
                 "\tdef i(self): return 'Foo'\n"
                 "class Bar(object):\n"
                 "\tdef i(self): return 'Bar'\n"
-                "\tdef __get__(self, instance, type):\n"
-                "\t\treturn Foo()\n"
+                "\tdef __get__(self, instance, type): return Foo()\n"
                 "class Baz(object):\n")
         self.reload(base + "\tbar = Bar()")
         self.reload(base + "\tbar = Bar()")
         baz = self.module.Baz
+        self.assertEquals(baz.bar.i(), 'Foo')
         self.assertEquals(baz.__dict__.get('bar').i(), 'Bar')
 
 
