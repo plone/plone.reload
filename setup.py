@@ -1,23 +1,12 @@
-import os
-
 from setuptools import setup, find_packages
 
-name = 'plone.reload'
 version = '1.4'
 
-def read(*rnames):
-    return open(os.path.join(os.path.dirname(__file__), *rnames)).read()
-
-long_description=(
-        read('README.txt')
-        + '\n' +
-        read('CHANGES.txt')
-    )
-
-setup(name=name,
+setup(name='plone.reload',
       version=version,
-      description="Configuration and code reload without Zope server restarts.",
-      long_description=long_description,
+      description="Configuration and code reload without server restarts.",
+      long_description=open('README.txt').read() + '\n' +
+                       open('CHANGES.txt').read(),
       classifiers=[
         "Framework :: Plone",
         "Framework :: Zope2",
