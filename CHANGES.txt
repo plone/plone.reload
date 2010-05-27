@@ -4,6 +4,11 @@ Changelog
 1.4 (unreleased)
 ----------------
 
+- Fixed a bug in dealing with class descriptors, like Five's BoundTemplateFile.
+  We replaced the descriptor with the descriptor result, leading to strange
+  problems. We check for those by looking directly into the ``__dict__`` and
+  comparing it to the result of a normal ``getattr`` call.
+  [hannosch, optilude]
 
 1.3 (2010-01-16)
 ----------------

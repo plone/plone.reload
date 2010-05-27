@@ -231,19 +231,12 @@ class TestReloadClass(TestReload):
         self.reload(base + "\t\tdef bar(a): return a + 2\n\t\treturn bar(a)")
         self.assertEquals(self.module.Foo().foo(5), 7)
 
-    def test_class_class_type_changed(self):
-        base = "class Foo(object): pass\nclass Bar(object):\n\te = Exception\n"
-        self.reload(base + "\tfoo = Foo")
-        self.reload(base + "\tfoo = Foo")
-        self.assertEquals(self.module.Bar().e, Exception)
-        self.assertEquals(self.module.Bar().foo, self.module.Foo)
-
     def test_class_class_instance_changed(self):
-        base = "class Foo(object): pass\nclass Bar(object):\n\te = Exception\n"
+        base = ("class Foo(object):\n\tdef f(self): return 1\n"
+                "class Bar(object):\n")
         self.reload(base + "\tfoo = Foo()")
-        before = self.module.Bar().foo
         self.reload(base + "\tfoo = Foo()")
-        self.assertEquals(self.module.Bar().foo, before)
+        self.assertEquals(self.module.Bar().foo.f(), 1)
 
     def test_view_page_template_file(self):
         # We can't use the fake module approach here since the problem is that

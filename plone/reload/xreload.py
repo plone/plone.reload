@@ -21,7 +21,7 @@ import inspect
 import zope.component
 
 
-CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__"])
+CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__", "__weakref__"])
 
 
 class ClosureChanged(Exception):
@@ -212,13 +212,15 @@ def _update_class(oldclass, newclass):
             elif isinstance(new, types.FunctionType):
                 # __init__ is a function
                 _update_function(old, new)
-            elif isinstance(new, type):
-                if new is not old:
-                    if new.__module__ != old.__module__:
-                        setattr(oldclass, name, new)
             else:
-                # Fallback to just replace the item
-                setattr(oldclass, name, new)
+                new2 = newdict.get(name)
+                if new is not new2:
+                    # Do we have some sort of descriptor? Set the underlying
+                    # descriptor and not the result of the descriptor call
+                    setattr(oldclass, name, new2)
+                else:
+                    # Fallback to just replace the item
+                    setattr(oldclass, name, new)
         except ClosureChanged:
             # If the closure changed, we need to replace the entire function
             setattr(oldclass, name, new.im_func)
