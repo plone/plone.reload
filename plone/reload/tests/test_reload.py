@@ -231,11 +231,11 @@ class TestReloadClass(TestReload):
         self.assertEquals(self.module.Foo().foo(5), 7)
 
     def test_class_class_instance_changed(self):
-        base = ("class Foo(object):\n\tdef f(self): return 1\n"
+        base = ("class Foo(object):\n\tdef f(self): return %s\n"
                 "class Bar(object):\n")
-        self.reload(base + "\tfoo = Foo()")
-        self.reload(base + "\tfoo = Foo()")
-        self.assertEquals(self.module.Bar().foo.f(), 1)
+        self.reload(base % 1 + "\tfoo = Foo()")
+        self.reload(base % 2 + "\tfoo = Foo()")
+        self.assertEquals(self.module.Bar().foo.f(), 2)
 
     def test_class_descriptor_changed(self):
         base = ("class Foo(object):\n"
