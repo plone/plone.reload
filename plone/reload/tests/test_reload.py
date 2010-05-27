@@ -1,5 +1,4 @@
 import os
-import shutil
 import tempfile
 import unittest
 
@@ -238,45 +237,18 @@ class TestReloadClass(TestReload):
         self.reload(base + "\tfoo = Foo()")
         self.assertEquals(self.module.Bar().foo.f(), 1)
 
-    def test_view_page_template_file(self):
-        # We can't use the fake module approach here since the problem is that
-        # reload screws up the BoundPageTemplateFile. Do it the hard way
-        # instead
-
-        here = os.path.join(os.path.dirname(__file__), 'viewtest')
-
-        origModule = os.path.join(here, '_orig.py')
-        newModule = os.path.join(here, 'view.py')
-
-        shutil.copyfile(origModule, newModule)
-
-        try:
-            import plone.reload.tests.viewtest.view
-
-            context = object()
-            request = object()
-
-            view = plone.reload.tests.viewtest.view.Foo(context, request)
-            template = view.template
-            self.failUnless(template.im_self is view)
-
-            moduleContents = open(newModule).read()
-            moduleContents.replace('# -*- placeholder -*-', 'foo = 1')
-            open(newModule, 'w').write(moduleContents)
-
-            reloader = xreload.Reloader(plone.reload.tests.viewtest.view)
-            reloader.reload()
-
-            view = plone.reload.tests.viewtest.view.Foo(context, request)
-            template = view.template
-            self.failUnless(template.im_self is view)
-
-        finally:
-            os.unlink(newModule)
-            try:
-                os.unlink(newModule + 'c')
-            except IOError:
-                pass
+    def test_class_descriptor_changed(self):
+        base = ("class Foo(object):\n"
+                "\tdef i(self): return 'Foo'\n"
+                "class Bar(object):\n"
+                "\tdef i(self): return 'Bar'\n"
+                "\tdef __get__(self, instance, type):\n"
+                "\t\treturn Foo()\n"
+                "class Baz(object):\n")
+        self.reload(base + "\tbar = Bar()")
+        self.reload(base + "\tbar = Bar()")
+        baz = self.module.Baz
+        self.assertEquals(baz.__dict__.get('bar').i(), 'Bar')
 
 
 class TestReloadDecorator(TestReload):
