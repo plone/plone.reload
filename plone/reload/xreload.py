@@ -21,6 +21,9 @@ import inspect
 import zope.component
 
 
+CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__"])
+
+
 class ClosureChanged(Exception):
     pass
 
@@ -44,7 +47,7 @@ class Reloader(object):
 
         # Get the module namespace (dict) early; this is part of the type check
         modns = self.mod.__dict__
-        # Parse it into package name and module name, e.g. 'foo.bar' and 
+        # Parse it into package name and module name, e.g. 'foo.bar' and
         # 'whatever'
         i = modname.rfind(".")
         if i >= 0:
@@ -71,8 +74,9 @@ class Reloader(object):
                 return reload(self.mod)
             if kind == imp.PY_SOURCE:
                 source = stream.read()
-                # PeterB: if we don't strip the source code and add newline we get 
-                # a SyntaxError even if `python $filename` is perfectly happy.
+                # PeterB: if we don't strip the source code and add newline we
+                # get a SyntaxError even if `python $filename` is perfectly
+                # happy.
                 source = source.strip()+'\n'
                 code = compile(source, filename, "exec")
             else:
@@ -120,7 +124,7 @@ class Reloader(object):
             # XXX we can't update interfaces because their internal
             # data structures break. We'll have to implement the reload method
             # for those and patch it in.
-           return oldobj
+            return oldobj
         if inspect.isclass(newobj):
             return _update_class(oldobj, newobj)
         elif inspect.isfunction(newobj):
@@ -191,11 +195,11 @@ def _update_class(oldclass, newclass):
     # grokkers and other wiring add class attributes during startup that
     # would get lost if we did this. Note that attributes will still be
     # overwritten if they've changed.
-    # 
+    #
     # for name in oldnames - newnames:
     #     delattr(oldclass, name)
 
-    for name in oldnames & newnames - set(["__dict__", "__doc__"]):
+    for name in oldnames & newnames - CLASS_STATICS:
         try:
             new = getattr(newclass, name)
             old = getattr(oldclass, name, None)
@@ -208,6 +212,10 @@ def _update_class(oldclass, newclass):
             elif isinstance(new, types.FunctionType):
                 # __init__ is a function
                 _update_function(old, new)
+            elif isinstance(new, type):
+                if new is not old:
+                    if new.__module__ != old.__module__:
+                        setattr(oldclass, name, new)
             else:
                 # Fallback to just replace the item
                 setattr(oldclass, name, new)
