@@ -234,6 +234,7 @@ class TestReloadClass(TestReload):
         base = ("class Foo(object):\n\tdef f(self): return %s\n"
                 "class Bar(object):\n")
         self.reload(base % 1 + "\tfoo = Foo()")
+        self.assertEquals(self.module.Bar().foo.f(), 1)
         self.reload(base % 2 + "\tfoo = Foo()")
         self.assertEquals(self.module.Bar().foo.f(), 2)
 
