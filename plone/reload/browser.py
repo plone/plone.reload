@@ -1,9 +1,6 @@
+from App.config import getConfiguration
 from zope.interface import implements
-
-from Acquisition import aq_base
-from Acquisition import aq_inner
-import Globals
-from Products.Five.browser import BrowserView
+from zope.publisher.browser import BrowserView
 
 from plone.reload.code import reload_code
 from plone.reload.interfaces import IReload
@@ -38,7 +35,7 @@ class Reload(BrowserView):
         return self.index()
 
     def available(self):
-        if Globals.DevelopmentMode:
+        if getConfiguration().debug_mode:
             return True
         return False
 
@@ -46,11 +43,11 @@ class Reload(BrowserView):
         return self.message
 
     def template_reload_available(self):
-        return HAS_CMF and not Globals.DevelopmentMode
+        return HAS_CMF and not getConfiguration().debug_mode
 
     def template_reload(self):
         if HAS_CMF:
-            reloaded = reload_template(aq_inner(self.context))
+            reloaded = reload_template(self.context)
             if reloaded > 0:
                 return '%s templates reloaded.' % reloaded
             return 'No templates reloaded.'
@@ -81,7 +78,7 @@ class Reload(BrowserView):
 
         # TODO Minimize all caches, we only really want to invalidate the
         # local site manager from all caches
-        aq_base(self.context)._p_jar.db().cacheMinimize()
+        self.context._p_jar.db().cacheMinimize()
         result = ''
         if reloaded:
             result += 'Code reloaded:\n\n'

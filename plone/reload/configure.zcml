@@ -12,7 +12,6 @@
     />
 
   <subscriber
-    zcml:condition="installed zope.processlifetime"
     for="zope.processlifetime.IProcessStarting"
     handler="plone.reload.code.get_mod_times" />
 

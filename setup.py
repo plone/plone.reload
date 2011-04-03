@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '1.6'
+version = '2.0b1'
 
 setup(name='plone.reload',
       version=version,
@@ -30,9 +30,11 @@ setup(name='plone.reload',
           'setuptools',
           'zope.component',
           'zope.interface',
+          'zope.processlifetime',
+          'zope.publisher',
+          'zope.site',
           'zope.testing',
-          'Acquisition',
-          'Zope2',
+          'Zope2 >= 2.12',
       ],
       extras_require = dict(
         cmf=['Products.CMFCore'],

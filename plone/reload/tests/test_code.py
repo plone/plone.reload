@@ -86,13 +86,6 @@ class TestTimes(unittest.TestCase):
         finally:
             MOD_TIMES[our_package] = our_entry
 
-    def test_setup_mod_times(self):
-        from plone.reload.code import setup_mod_times
-        def foo(a, b=0):
-            return a + b
-        foo = setup_mod_times(foo)
-        self.assertEquals(foo(2, b=4), 6)
-
     def test_reload_code(self):
         from plone.reload.code import reload_code
         self.assertEquals(len(reload_code()), 0)

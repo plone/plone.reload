@@ -75,26 +75,3 @@ def reload_code():
         MOD_TIMES[path] = (time, module)
         reloaded.append(path)
     return reloaded
-
-
-# Before Zope 2.12 there was no event for process startup. We therefor hook
-# ourselves into the last function called during the startup procedure. In
-# 2.12 the logging setup was moved up in the startup logic, so our monkey
-# patch was only applied after the function had already been called.
-
-def setup_mod_times(func):
-    def init_times(*args, **kwargs):
-        get_mod_times()
-        return func(*args, **kwargs)
-    return init_times
-
-try:
-    import zope.processlifetime
-except ImportError:
-    from Zope2.Startup import UnixZopeStarter
-    from Zope2.Startup import WindowsZopeStarter
-
-    UnixZopeStarter.setupFinalLogging = \
-        setup_mod_times(UnixZopeStarter.setupFinalLogging)
-    WindowsZopeStarter.setupFinalLogging = \
-        setup_mod_times(WindowsZopeStarter.setupFinalLogging)

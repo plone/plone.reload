@@ -1,28 +1,27 @@
-try:
-    from zope.site.hooks import setSite
-except ImportError:
-    from zope.app.component.hooks import setSite
-
 from zope.component import getGlobalSiteManager
+from zope.site.hooks import setSite
 from zope.testing import cleanup
 
-from Products.Five import zcml
+# BBB: Zope 2.12
+try:
+    from Zope2.App import zcml
+    zcml # pyflakes
+except ImportError:
+    from Products.Five import zcml
+
 
 CORE_CLEANUPS = frozenset([
-    'zope.app.apidoc.classregistry',
-    'zope.app.component.hooks',
-    'zope.app.security.principalregistry',
-    'zope.app.schema.vocabulary',
+    'OFS.metaconfigure',
+    'Products.Five.zcml',
+    'Products.Five.eventconfigure',
+    'Products.Five.fiveconfigure',
+    'Products.Five.sizeconfigure',
     'zope.component.globalregistry',
     'zope.schema.vocabulary',
     'zope.security.management',
     'zope.security.checker',
     'zope.site.hooks',
-    'Products.Five.zcml',
-    'Products.Five.eventconfigure',
-    'Products.Five.fiveconfigure',
-    'Products.Five.site.metaconfigure',
-    'Products.Five.sizeconfigure',
+    'Zope2.App.zcml',
 ])
 
 
