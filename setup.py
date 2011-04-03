@@ -1,4 +1,4 @@
-from setuptools import setup, find_packages
+from setuptools import setup
 
 version = '1.6'
 
@@ -20,7 +20,7 @@ setup(name='plone.reload',
       author_email='hanno@hannosch.eu',
       url='http://pypi.python.org/pypi/plone.reload',
       license='GPL version 2',
-      packages=find_packages(exclude=['ez_setup']),
+      packages=['plone', 'plone.reload', 'plone.reload.tests'],
       namespace_packages=['plone'],
       include_package_data=True,
       zip_safe=False,
