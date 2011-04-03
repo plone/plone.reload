@@ -5,7 +5,7 @@ version = '1.6'
 setup(name='plone.reload',
       version=version,
       description="Configuration and code reload without server restarts.",
-      long_description=open('README.txt').read() + '\n' +
+      long_description=open('README.rst').read() + '\n' +
                        open('CHANGES.txt').read(),
       classifiers=[
           "Environment :: Web Environment",
@@ -15,9 +15,9 @@ setup(name='plone.reload',
           "Operating System :: OS Independent",
           "Programming Language :: Python",
         ],
-      keywords='Zope Plone reload',
-      author='Plone Foundation',
-      author_email='plone-developers@lists.sourceforge.net',
+      keywords='zope plone reload',
+      author='Hanno Schlichting',
+      author_email='hanno@hannosch.eu',
       url='http://pypi.python.org/pypi/plone.reload',
       license='GPL version 2',
       packages=find_packages(exclude=['ez_setup']),

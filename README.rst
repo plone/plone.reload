@@ -38,3 +38,9 @@ To reload all ZCML without a restart, press the 'Reload Code and ZCML' button.
 The action to perform is determined via a simple query string, so once you
 did a 'Reload Code' once, you can simply reload the browser page to execute
 the action once again.
+
+Development
+-----------
+
+The code and issue tracker can be found on GitHub at:
+https://github.com/hannosch/plone.reload
