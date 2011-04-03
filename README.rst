@@ -1,20 +1,7 @@
-plone.reload
-============
-
 Overview
 --------
 
 Configuration and code reload without server restarts.
-
-This code is heavily based on the Products.RefreshNG product found at
-http://launchpad.net/refreshng.
-
-The original xreload.py written by Guido van Rossum can be found at
-http://svn.python.org/projects/sandbox/trunk/xreload/xreload.py
-
-It has some enhancements, but those seem to break more code than do any good
-in a Zope environment with patched in meta classes and monkey patches all over
-the place.
 
 Usage
 -----
@@ -44,3 +31,22 @@ Development
 
 The code and issue tracker can be found on GitHub at:
 https://github.com/hannosch/plone.reload
+
+Thanks
+------
+
+This code is heavily based on the Products.RefreshNG product found at
+http://launchpad.net/refreshng.
+
+The original xreload.py written by Guido van Rossum can be found at
+http://svn.python.org/projects/sandbox/trunk/xreload/xreload.py
+
+It has some enhancements, but those seem to break more code than do any good
+in a Zope environment with patched in meta classes and monkey patches all over
+the place.
+
+Contributors
+------------
+
+* Hanno Schlichting (primary author)
+* Martin Aspeli (test contribution)
