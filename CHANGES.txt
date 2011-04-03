@@ -1,9 +1,12 @@
 Changelog
 =========
 
-1.6 (unreleased)
-----------------
+2.0b1 (2011-04-03)
+------------------
 
+- Require at least Zope 2.12 / Python 2.6 and add preliminary support for
+  Zope 2.13 with Python 2.6 and 2.7.
+  [hannosch]
 
 1.5 (2010-07-18)
 ----------------
