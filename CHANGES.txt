@@ -4,6 +4,8 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Exclude tests from the shipped source distribution.
+  [hannosch, iElectric]
 
 2.0b1 (2011-04-03)
 ------------------
