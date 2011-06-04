@@ -4,6 +4,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Update test assertions to avoid deprecation warnings under Python 2.7.
+  [hannosch]
+
 - Relicensed to BSD.
   [hannosch]
 

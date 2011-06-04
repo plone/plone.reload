@@ -57,39 +57,39 @@ class TestReloadModule(TestReload):
 
     def test_immutable_constant_added(self):
         self.reload("FOO = 15")
-        self.assertEquals(self.module.FOO, 15)
+        self.assertEqual(self.module.FOO, 15)
 
     def test_immutable_constant_changed(self):
         self.reload("FOO = 15")
         self.reload("FOO = 16")
-        self.assertEquals(self.module.FOO, 16)
+        self.assertEqual(self.module.FOO, 16)
 
     def test_immutable_constant_removed(self):
         self.reload("FOO = 15")
         self.reload("")
-        self.failUnless(getattr(self.module, 'FOO', None) is None)
+        self.assertTrue(getattr(self.module, 'FOO', None) is None)
 
     def test_mutable_constant_added(self):
         self.reload("FOO = [1, 2]")
-        self.assertEquals(self.module.FOO, [1, 2])
+        self.assertEqual(self.module.FOO, [1, 2])
 
     def test_instance_constant_added(self):
         self.reload("FOO = object()")
-        self.failUnless(isinstance(self.module.FOO, object))
+        self.assertTrue(isinstance(self.module.FOO, object))
 
     def test_function_added(self):
         self.reload("def foo(): return True")
-        self.failUnless(self.module.foo())
+        self.assertTrue(self.module.foo())
 
     def test_class_added(self):
         self.reload(
             "class Foo(object):\n\tdef __init__(self):\n\t\tself.bar = 1")
-        self.assertEquals(self.module.Foo().bar, 1)
+        self.assertEqual(self.module.Foo().bar, 1)
 
     def test_import_added(self):
         self.reload("def foo(): pass")
         self.reload("import os\ndef foo(): return os.pathsep")
-        self.assertEquals(self.module.foo(), os.pathsep)
+        self.assertEqual(self.module.foo(), os.pathsep)
 
 
 class TestReloadFunction(TestReload):
@@ -99,25 +99,25 @@ class TestReloadFunction(TestReload):
         self.reload(source)
         source = source + "\ndef bar(): return True\n"
         self.reload(source)
-        self.failUnless(self.module.foo())
-        self.failUnless(self.module.bar())
+        self.assertTrue(self.module.foo())
+        self.assertTrue(self.module.bar())
 
     def test_function_changed(self):
         self.reload("def foo(): return True")
         self.reload("def foo(): return False")
-        self.failIf(self.module.foo())
+        self.assertFalse(self.module.foo())
 
     def test_function_changed_to_constant(self):
         self.reload("def foo(): return True")
         self.reload("foo = 15")
-        self.assertEquals(self.module.foo, 15)
+        self.assertEqual(self.module.foo, 15)
 
     def test_function_removed(self):
         source = "def foo(): return True"
         self.reload(source + "\ndef bar(): return True\n")
         self.reload(source)
-        self.failUnless(self.module.foo())
-        self.failUnless(getattr(self.module, 'bar', None) is None)
+        self.assertTrue(self.module.foo())
+        self.assertTrue(getattr(self.module, 'bar', None) is None)
 
 
 class TestReloadClass(TestReload):
@@ -127,116 +127,116 @@ class TestReloadClass(TestReload):
         self.reload(source)
         source = source + "\nclass Bar(object): bar = 2"
         self.reload(source)
-        self.assertEquals(self.module.Foo().bar, 1)
-        self.assertEquals(self.module.Bar().bar, 2)
+        self.assertEqual(self.module.Foo().bar, 1)
+        self.assertEqual(self.module.Bar().bar, 2)
 
     def test_class_variable_added(self):
         source = "class Foo(object):\n\tfoo = 1"
         self.reload(source)
         source = source + "\n\tbar = 2"
         self.reload(source)
-        self.assertEquals(self.module.Foo().foo, 1)
-        self.assertEquals(self.module.Foo().bar, 2)
+        self.assertEqual(self.module.Foo().foo, 1)
+        self.assertEqual(self.module.Foo().bar, 2)
 
     def test_class_variable_changed(self):
         self.reload("class Foo(object):\n\tfoo = 1")
         self.reload("class Foo(object):\n\tfoo = 2")
-        self.assertEquals(self.module.Foo().foo, 2)
+        self.assertEqual(self.module.Foo().foo, 2)
 
     def test_class_variable_removed(self):
         self.reload("class Foo(object):\n\tfoo = 1")
         self.reload("class Foo(object):\n\tpass")
         # We don't remove any class variables
-        self.assertEquals(self.module.Foo().foo, 1)
+        self.assertEqual(self.module.Foo().foo, 1)
 
     def test_class_init_added(self):
         base = "class Foo(object):\n"
         self.reload(base + "\tpass")
         self.reload(base + "\tdef __init__(self):\n\t\tself.bar = 2")
-        self.assertEquals(self.module.Foo().bar, 2)
+        self.assertEqual(self.module.Foo().bar, 2)
 
     def test_class_init_changed(self):
         base = "class Foo(object):\n\tdef __init__(self):\n"
         self.reload(base + "\t\tself.bar = 1")
         self.reload(base + "\t\tself.bar = 2")
-        self.assertEquals(self.module.Foo().bar, 2)
+        self.assertEqual(self.module.Foo().bar, 2)
 
     def test_class_init_removed(self):
         base = "class Foo(object):\n"
         self.reload(base + "\tdef __init__(self):\n\t\tself.bar = 2")
         self.reload(base + "\tpass")
         # We don't remove anything from a class
-        self.assertEquals(self.module.Foo().bar, 2)
+        self.assertEqual(self.module.Foo().bar, 2)
 
     def test_class_method_added(self):
         source = "class Foo(object):\n\tfoo = 1"
         self.reload(source)
         source = source + "\n\tdef bar(self):\n\t\treturn 2"
         self.reload(source)
-        self.assertEquals(self.module.Foo().foo, 1)
-        self.assertEquals(self.module.Foo().bar(), 2)
+        self.assertEqual(self.module.Foo().foo, 1)
+        self.assertEqual(self.module.Foo().bar(), 2)
 
     def test_class_method_changed(self):
         base = "class Foo(object):\n\tdef foo(self, a):\n"
         self.reload(base + "\t\treturn a + 1")
         self.reload(base + "\t\treturn a + 2")
-        self.assertEquals(self.module.Foo().foo(2), 4)
+        self.assertEqual(self.module.Foo().foo(2), 4)
 
     def test_class_method_arguments_changed(self):
         base = "class Foo(object):\n"
         self.reload(base + "\tdef foo(self, a):\n\t\treturn a + 1")
         self.reload(base + "\tdef foo(self, a, b):\n\t\treturn a + b")
-        self.assertEquals(self.module.Foo().foo(2, 3), 5)
+        self.assertEqual(self.module.Foo().foo(2, 3), 5)
 
     def test_class_property_added(self):
         base = "class Foo(object):\n"
         self.reload(base + "\tpass")
         self.reload(base + "\t@property\n\tdef foo(self):\n\t\treturn 1")
-        self.assertEquals(self.module.Foo().foo, 1)
+        self.assertEqual(self.module.Foo().foo, 1)
 
     def test_class_property_changed(self):
         base = "class Foo(object):\n\t@property\n\tdef foo(self):\n"
         self.reload(base + "\t\treturn 1")
         self.reload(base + "\t\treturn 2")
-        self.assertEquals(self.module.Foo().foo, 2)
+        self.assertEqual(self.module.Foo().foo, 2)
 
     def test_class_property_changed_to_method(self):
         base = "class Foo(object):\n"
         self.reload(base + "\t@property\n\tdef foo(self):\n\t\treturn 1")
         self.reload(base + "\n\tdef foo(self):\n\t\treturn 2")
-        self.assertEquals(self.module.Foo().foo(), 2)
+        self.assertEqual(self.module.Foo().foo(), 2)
 
     def test_class_method_changed_to_property(self):
         base = "class Foo(object):\n"
         self.reload(base + "\n\tdef foo(self):\n\t\treturn 2")
         self.reload(base + "\t@property\n\tdef foo(self):\n\t\treturn 1")
-        self.assertEquals(self.module.Foo().foo, 1)
+        self.assertEqual(self.module.Foo().foo, 1)
 
     def test_class_staticmethod_added(self):
         base = "class Foo(object):\n"
         self.reload(base + "\tpass")
         self.reload(base + "\t@staticmethod\n\tdef foo():\n\t\treturn 1")
-        self.assertEquals(self.module.Foo.foo(), 1)
+        self.assertEqual(self.module.Foo.foo(), 1)
 
     def test_class_staticmethod_changed(self):
         base = "class Foo(object):\n\t@staticmethod\n\tdef foo():\n"
         self.reload(base + "\t\treturn 1")
         self.reload(base + "\t\treturn 2")
-        self.assertEquals(self.module.Foo.foo(), 2)
+        self.assertEqual(self.module.Foo.foo(), 2)
 
     def test_class_nested_function_changed(self):
         base = "class Foo(object):\n\tdef foo(self, a):\n"
         self.reload(base + "\t\tdef bar(a): return a + a\n\t\treturn bar(a)")
         self.reload(base + "\t\tdef bar(a): return a + 2\n\t\treturn bar(a)")
-        self.assertEquals(self.module.Foo().foo(5), 7)
+        self.assertEqual(self.module.Foo().foo(5), 7)
 
     def test_class_class_instance_changed(self):
         base = ("class Foo(object):\n\tdef f(self): return %s\n"
                 "class Bar(object):\n")
         self.reload(base % 1 + "\tfoo = Foo()")
-        self.assertEquals(self.module.Bar().foo.f(), 1)
+        self.assertEqual(self.module.Bar().foo.f(), 1)
         self.reload(base % 2 + "\tfoo = Foo()")
-        self.assertEquals(self.module.Bar().foo.f(), 2)
+        self.assertEqual(self.module.Bar().foo.f(), 2)
 
     def test_class_descriptor_changed(self):
         base = ("class Foo(object):\n"
@@ -248,8 +248,8 @@ class TestReloadClass(TestReload):
         self.reload(base + "\tbar = Bar()")
         self.reload(base + "\tbar = Bar()")
         baz = self.module.Baz
-        self.assertEquals(baz.bar.i(), 'Foo')
-        self.assertEquals(baz.__dict__.get('bar').i(), 'Bar')
+        self.assertEqual(baz.bar.i(), 'Foo')
+        self.assertEqual(baz.__dict__.get('bar').i(), 'Bar')
 
 
 class TestReloadDecorator(TestReload):
@@ -266,24 +266,24 @@ class Foo(object):
     def test_class_decorater_added(self):
         self.reload(self.base + "\tdef foo(self, a): return a + 1")
         self.reload(self.base + "\t@outer\n\tdef foo(self, a): return a + 2")
-        self.assertEquals(self.module.Foo().foo(2), 4)
+        self.assertEqual(self.module.Foo().foo(2), 4)
 
     def test_class_decorated_method_changed(self):
         self.reload(self.base + "\t@outer\n\tdef foo(self, a): return a + 1")
         self.reload(self.base + "\t@outer\n\tdef foo(self, a): return a + 2")
-        self.assertEquals(self.module.Foo().foo(3), 5)
+        self.assertEqual(self.module.Foo().foo(3), 5)
 
     def test_class_decorator_changed(self):
         source = self.base + "\t@outer\n\tdef foo(self, a): return a + 1"
         self.reload(source)
         source = source.replace("func(self, *args)", "func(self, 15)")
         self.reload(source)
-        self.assertEquals(self.module.Foo().foo(4), 16)
+        self.assertEqual(self.module.Foo().foo(4), 16)
 
     def test_class_decorator_removed(self):
         self.reload(self.base + "\t@outer\n\tdef foo(self, a): return a + 1")
         self.reload(self.base + "\tdef foo(self, a): return a + 2")
-        self.assertEquals(self.module.Foo().foo(5), 7)
+        self.assertEqual(self.module.Foo().foo(5), 7)
 
 
 class TestReloadInterface(TestReload):
@@ -298,6 +298,6 @@ class IFoo(Interface):
     def test_interface_method_added(self):
         self.reload(self.base)
         self.reload(self.base + '\tdef baz():\n\t\t"""Maybe a baz?"""')
-        self.failUnless('bar' in self.module.IFoo.names())
+        self.assertTrue('bar' in self.module.IFoo.names())
         # Reloading interfaces doesn't work yet at all
-        self.failIf('baz' in self.module.IFoo.names())
+        self.assertFalse('baz' in self.module.IFoo.names())
