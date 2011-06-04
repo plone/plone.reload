@@ -4,6 +4,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Relicensed to BSD.
+  [hannosch]
+
 - Minor PEP8 cleanup.
   [hannosch]
 
