@@ -61,10 +61,11 @@ class Reloader(object):
             path = pkg.__path__  # Search inside the package
         else:
             # Search the top-level module path
-            pkg  = None
+            pkg = None
             path = None  # Make find_module() uses the default search path
         # Find the module; may raise ImportError
-        (stream, filename, (suffix, mode, kind)) = imp.find_module(modname, path)
+        (stream, filename, (suffix, mode, kind)) = imp.find_module(
+            modname, path)
         # Turn it into a code object
         try:
             # Is it Python source code or byte code read from a file?

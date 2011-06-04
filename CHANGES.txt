@@ -4,6 +4,9 @@ Changelog
 2.0 (unreleased)
 ----------------
 
+- Minor PEP8 cleanup.
+  [hannosch]
+
 - Exclude tests from the shipped source distribution.
   [hannosch, iElectric]
 

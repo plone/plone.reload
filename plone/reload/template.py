@@ -2,6 +2,7 @@ from Products.CMFCore.FSObject import FSObject
 from Products.CMFCore.interfaces import ISiteRoot
 from Products.CMFCore.utils import getToolByName
 
+
 def reload_skins(tool):
     counter = 0
     for folder in tool.objectValues():
@@ -12,6 +13,7 @@ def reload_skins(tool):
                     obj._parsed = 0
                     counter += 1
     return counter
+
 
 def reload_template(root):
     counter = 0
