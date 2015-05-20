@@ -34,7 +34,7 @@ Development
 -----------
 
 The code and issue tracker can be found on GitHub at:
-https://github.com/hannosch/plone.reload
+https://github.com/plone/plone.reload
 
 Thanks
 ------
