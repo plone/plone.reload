@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '2.1dev'
+version = '2.1.dev0'
 
 setup(name='plone.reload',
       version=version,
