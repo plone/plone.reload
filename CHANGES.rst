@@ -1,8 +1,12 @@
 Changelog
 =========
 
-2.1 (unreleased)
+2.0.1 (unreleased)
 ----------------
+
+Fixes:
+
+- Minor packaging fixes.  [gforcada, maurits]
 
 
 2.0 (2011-06-04)
