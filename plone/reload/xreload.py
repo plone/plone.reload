@@ -51,7 +51,7 @@ class Reloader(object):
         # 'whatever'
         i = modname.rfind(".")
         if i >= 0:
-            pkgname, modname = modname[:i], modname[i+1:]
+            pkgname, modname = modname[:i], modname[i + 1:]
         else:
             pkgname = None
         # Compute the search path
@@ -78,11 +78,11 @@ class Reloader(object):
                 # PeterB: if we don't strip the source code and add newline we
                 # get a SyntaxError even if `python $filename` is perfectly
                 # happy.
-                source = source.strip()+'\n'
+                source = source.strip() + '\n'
                 code = compile(source, filename, "exec")
             else:
                 # I have no idea how to test this one
-                code = marshal.load(stream) #pragma NO COVER
+                code = marshal.load(stream)  # pragma NO COVER
         finally:
             if stream:
                 stream.close()
@@ -136,7 +136,7 @@ class Reloader(object):
         # This line is currently not hit at all, since we only call this on
         # a module. It's pretty hard to have a non-function, non-class entity
         # in a module, which has a __module__ pointer to the module itself
-        return newobj #pragma NO COVER
+        return newobj  # pragma NO COVER
 
 
 def _closure_changed(oldcl, newcl):

@@ -22,7 +22,7 @@ class TestReload(unittest.TestCase):
         name = os.path.split(temp.name)[-1]
         modulename = 'plone.reload.tests.data.' + name[:-3]
         module = __import__(modulename,
-            fromlist=['plone', 'reload', 'tests', 'data'])
+                            fromlist=['plone', 'reload', 'tests', 'data'])
         return temp.name, module
 
     def reload(self, text=None):

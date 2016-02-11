@@ -5,7 +5,7 @@ from zope.testing import cleanup
 # BBB: Zope 2.12
 try:
     from Zope2.App import zcml
-    zcml # pyflakes
+    zcml  # pyflakes
 except ImportError:
     from Products.Five import zcml
 
