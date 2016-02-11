@@ -68,7 +68,7 @@ class TestTimes(unittest.TestCase):
             os.path.join(TESTS, os.pardir, '__init__.pyc'))
         times = get_mod_times()
         self.assertTrue(our_package in times)
-        self.assertTrue(type(times[our_package][1]) == types.ModuleType)
+        self.assertTrue(isinstance(times[our_package][1], types.ModuleType))
 
     def test_check_mod_times(self):
         from plone.reload.code import check_mod_times

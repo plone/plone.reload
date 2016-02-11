@@ -111,7 +111,7 @@ class Reloader(object):
         Returns:
           either oldobj, updated in place, or newobj.
         """
-        if type(oldobj) is not type(newobj):
+        if not isinstance(oldobj, type(newobj)):
             # Cop-out: if the type changed, give up
             return newobj
 
