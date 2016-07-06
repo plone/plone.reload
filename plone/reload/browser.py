@@ -1,5 +1,5 @@
 from App.config import getConfiguration
-from zope.interface import implements
+from zope.interface import implementer
 from zope.publisher.browser import BrowserView
 
 from plone.reload.code import reload_code
@@ -13,10 +13,10 @@ except ImportError:
     HAS_CMF = False
 
 
+@implementer(IReload)
 class Reload(BrowserView):
     """Reload view.
     """
-    implements(IReload)
 
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
