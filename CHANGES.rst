@@ -1,38 +1,21 @@
 Changelog
 =========
 
-2.0.3 (unreleased)
+3.0.0 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
-Bug fixes:
-
-- *add item here*
-
+- Test against Zope 4, while keeping compatibility with Zope 2.13.
 
 2.0.2 (2016-08-18)
 ------------------
 
-Fixes:
-
 - Use zope.interface decorator.
   [gforcada]
-
 
 2.0.1 (2016-02-11)
 ------------------
 
-Fixes:
-
 - Minor packaging fixes.  [gforcada, maurits]
-
 
 2.0 (2011-06-04)
 ----------------

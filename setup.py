@@ -1,6 +1,6 @@
 from setuptools import setup
 
-version = '2.0.3.dev0'
+version = '3.0.0.dev0'
 
 setup(
     name='plone.reload',
@@ -18,9 +18,8 @@ setup(
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
         "Programming Language :: Python",
-        "Programming Language :: Python :: 2.6",
         "Programming Language :: Python :: 2.7",
-      ],
+    ],
     keywords='zope plone reload',
     author='Hanno Schlichting',
     author_email='hanno@hannosch.eu',
@@ -38,13 +37,13 @@ setup(
         'zope.publisher',
         'zope.site',
         'zope.testing',
-        'Zope2 >= 2.12',
+        'Zope2 >= 2.13',
     ],
     extras_require=dict(
-      cmf=['Products.CMFCore'],
+        cmf=['Products.CMFCore'],
     ),
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
     """,
-    )
+)
