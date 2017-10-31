@@ -56,16 +56,16 @@ class TestTimes(unittest.TestCase):
         self.assertEqual(our_time, os.stat(tests)[8])
 
     def test_get_mod_time_compiled(self):
-        from plone.reload.code import get_mod_time
+        from plone.reload.code import get_mod_time, _cache_from_source
         tests = os.path.join(TESTS, '__init__.py')
-        tests_c = os.path.join(TESTS, '__init__.pyc')
+        tests_c = _cache_from_source(tests)
         our_time = get_mod_time(tests_c)
         self.assertEqual(our_time, os.stat(tests)[8])
 
     def test_get_mod_times(self):
         from plone.reload.code import get_mod_times
         our_package = os.path.abspath(
-            os.path.join(TESTS, os.pardir, '__init__.pyc'))
+            os.path.join(TESTS, os.pardir, '__init__.py'))
         times = get_mod_times()
         self.assertTrue(our_package in times)
         self.assertTrue(isinstance(times[our_package][1], types.ModuleType))
@@ -76,15 +76,16 @@ class TestTimes(unittest.TestCase):
 
     def test_check_mod_times_change(self):
         from plone.reload.code import check_mod_times
-        from plone.reload.code import MOD_TIMES
+        from plone.reload.code import get_mod_times
         our_package = os.path.abspath(
-            os.path.join(TESTS, os.pardir, '__init__.pyc'))
-        our_entry = MOD_TIMES[our_package]
+            os.path.join(TESTS, os.pardir, '__init__.py'))
+        times = get_mod_times()
+        our_entry = times[our_package]
         try:
-            MOD_TIMES[our_package] = (our_entry[0] - 10, our_entry[1])
+            times[our_package] = (our_entry[0] - 10, our_entry[1])
             self.assertEqual(len(check_mod_times()), 1)
         finally:
-            MOD_TIMES[our_package] = our_entry
+            times[our_package] = our_entry
 
     def test_reload_code(self):
         from plone.reload.code import reload_code
@@ -92,12 +93,13 @@ class TestTimes(unittest.TestCase):
 
     def test_reload_code_change(self):
         from plone.reload.code import reload_code
-        from plone.reload.code import MOD_TIMES
+        from plone.reload.code import get_mod_times
         our_package = os.path.abspath(
-            os.path.join(TESTS, os.pardir, '__init__.pyc'))
-        our_entry = MOD_TIMES[our_package]
+            os.path.join(TESTS, os.pardir, '__init__.py'))
+        times = get_mod_times()
+        our_entry = times[our_package]
         try:
-            MOD_TIMES[our_package] = (our_entry[0] - 10, our_entry[1])
+            times[our_package] = (our_entry[0] - 10, our_entry[1])
             self.assertEqual(len(reload_code()), 1)
         finally:
-            MOD_TIMES[our_package] = our_entry
+            times[our_package] = our_entry

@@ -297,7 +297,7 @@ class IFoo(Interface):
 
     def test_interface_method_added(self):
         self.reload(self.base)
-        self.reload(self.base + '\tdef baz():\n\t\t"""Maybe a baz?"""')
+        self.reload(self.base + '    def baz():\n        """Maybe a baz?"""')
         self.assertTrue('bar' in self.module.IFoo.names())
         # Reloading interfaces doesn't work yet at all
         self.assertFalse('baz' in self.module.IFoo.names())

@@ -11,6 +11,40 @@ _marker = object()
 MOD_TIMES = dict()
 
 
+try:
+    # Py3
+    from imp import cache_from_source, source_from_cache
+
+    def _cache_from_source(path):
+        if '__pycache__' in path:
+            return path
+        return cache_from_source(path)
+
+    def _source_from_cache(path):
+        if '__pycache__' in path:
+            return source_from_cache(path)
+        return path
+
+except ImportError:
+    # Py2
+    def _cache_from_source(path):
+        if path.endswith('pyc') or path.endswith('pyo'):
+            cache = path
+        else:
+            cache = path + 'c'
+        if os.path.isfile(cache):
+            path = cache
+        return path
+
+    def _source_from_cache(path):
+        source = path
+        if path.endswith('pyc') or path.endswith('pyo'):
+            source = path[:-1]
+        if os.path.isfile(source):
+            path = source
+        return path
+
+
 def in_search_path(path):
     if 'site-packages' in path:
         return False
@@ -27,7 +61,7 @@ def search_modules():
             # Standard library modules don't have a __file__
             if f is None:
                 continue
-            f = abspath(f)
+            f = abspath(_source_from_cache(f))
             if config.EXCLUDE_SITE_PACKAGES:
                 if in_search_path(f):
                     modules.append((f, module))
@@ -39,10 +73,7 @@ def search_modules():
 def get_mod_time(path):
     mtime = 0
     # If we have the compiled source, look for the source code change date
-    if path.endswith('pyc') or path.endswith('pyo'):
-        source = path[:-1]
-        if os.path.isfile(source):
-            path = source
+    path = _source_from_cache(path)
     # protect against missing and unaccessible files
     if isfile(path):
         mtime = os.stat(path)[8]

@@ -1,5 +1,5 @@
 plone.reload
-Copyright (C) 2008-2011 Hanno Schlichting
+Copyright (C) 2008-2017 Hanno Schlichting
 
 All rights reserved.
 

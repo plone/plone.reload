@@ -18,6 +18,8 @@ import sys
 import types
 import inspect
 
+import six
+from six.moves import reload_module
 import zope.component
 
 
@@ -72,7 +74,7 @@ class Reloader(object):
             # XXX Could handle frozen modules, zip-import modules
             if kind not in (imp.PY_COMPILED, imp.PY_SOURCE):
                 # Fall back to built-in reload()
-                return reload(self.mod)
+                return reload_module(self.mod)
             if kind == imp.PY_SOURCE:
                 source = stream.read()
                 # PeterB: if we don't strip the source code and add newline we
@@ -166,11 +168,13 @@ def _update_scope(oldscope, newscope):
 
 def _update_function(oldfunc, newfunc):
     """Update a function object."""
-    if _closure_changed(oldfunc.func_closure, newfunc.func_closure):
-        raise ClosureChanged
-    oldfunc.func_code = newfunc.func_code
-    oldfunc.func_defaults = newfunc.func_defaults
-    _update_scope(oldfunc.func_globals, newfunc.func_globals)
+    if _closure_changed(six.get_function_closure(oldfunc),
+                        six.get_function_closure(newfunc)):
+        raise ClosureChanged()
+    setattr(oldfunc, six._func_code, six.get_function_code(newfunc))
+    setattr(oldfunc, six._func_defaults, six.get_function_defaults(newfunc))
+    _update_scope(six.get_function_globals(oldfunc),
+                  six.get_function_globals(newfunc))
     # XXX What else?
     return oldfunc
 
@@ -178,7 +182,8 @@ def _update_function(oldfunc, newfunc):
 def _update_method(oldmeth, newmeth):
     """Update a method object."""
     # XXX What if im_func is not a function?
-    _update_function(oldmeth.im_func, newmeth.im_func)
+    _update_function(six.get_unbound_function(oldmeth),
+                     six.get_unbound_function(newmeth))
     return oldmeth
 
 
@@ -204,15 +209,16 @@ def _update_class(oldclass, newclass):
         try:
             new = getattr(newclass, name)
             old = getattr(oldclass, name, None)
-            if isinstance(new, types.MethodType):
+            if isinstance(new, (types.FunctionType, types.MethodType)):
                 if isinstance(old, property) and not isinstance(new, property):
                     # Removing a decorator
-                    setattr(oldclass, name, new.im_func)
-                else:
+                    setattr(oldclass, name, six.get_unbound_function(new))
+                elif isinstance(new, types.FunctionType):
+                    # Under Py3 there are only functions
+                    _update_function(old, new)
+                elif isinstance(new, types.MethodType):
+                    # Py2-only
                     _update_method(old, new)
-            elif isinstance(new, types.FunctionType):
-                # __init__ is a function
-                _update_function(old, new)
             else:
                 new2 = newdict.get(name)
                 if new is not new2:
@@ -224,6 +230,6 @@ def _update_class(oldclass, newclass):
                     setattr(oldclass, name, new)
         except ClosureChanged:
             # If the closure changed, we need to replace the entire function
-            setattr(oldclass, name, new.im_func)
+            setattr(oldclass, name, six.get_unbound_function(new))
 
     return oldclass

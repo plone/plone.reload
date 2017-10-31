@@ -4,6 +4,8 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- Add Python 3.4, 3.5 and 3.6 support. Drop Python 2.6 support.
+
 - Test against Zope 4, while keeping compatibility with Zope 2.13.
 
 2.0.2 (2016-08-18)
