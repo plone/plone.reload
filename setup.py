@@ -26,7 +26,7 @@ setup(
     keywords='zope plone reload',
     author='Hanno Schlichting',
     author_email='hanno@hannosch.eu',
-    url='https://pypi.python.org/pypi/plone.reload',
+    url='https://pypi.org/project/plone.reload',
     license='BSD',
     packages=['plone', 'plone.reload'],
     namespace_packages=['plone'],
