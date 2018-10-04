@@ -17,6 +17,7 @@ CORE_CLEANUPS = frozenset([
     'Products.Five.fiveconfigure',
     'Products.Five.sizeconfigure',
     'zope.component.globalregistry',
+    'zope.component.hooks',    
     'zope.schema.vocabulary',
     'zope.security.management',
     'zope.security.checker',
