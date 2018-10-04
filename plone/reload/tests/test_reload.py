@@ -1,6 +1,8 @@
 import os
+import shutil
 import tempfile
 import unittest
+import importlib
 
 from plone.reload import xreload
 
@@ -21,6 +23,7 @@ class TestReload(unittest.TestCase):
         fd.close()
         name = os.path.split(temp.name)[-1]
         modulename = 'plone.reload.tests.data.' + name[:-3]
+        importlib.invalidate_caches()
         module = __import__(modulename,
                             fromlist=['plone', 'reload', 'tests', 'data'])
         return temp.name, module
@@ -46,6 +49,10 @@ class TestReload(unittest.TestCase):
             os.unlink(data_init)
         if os.path.isfile(data_init + 'c'):
             os.unlink(data_init + 'c')
+
+        data_pycache = os.path.join(TESTS, '__pycache__')
+        if os.path.isdir(data_pycache):
+            shutil.rmtree(data_pycache)
 
 
 class TestReloadModule(TestReload):
