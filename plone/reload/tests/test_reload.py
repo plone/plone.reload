@@ -23,7 +23,11 @@ class TestReload(unittest.TestCase):
         fd.close()
         name = os.path.split(temp.name)[-1]
         modulename = 'plone.reload.tests.data.' + name[:-3]
-        importlib.invalidate_caches()
+        try:
+            importlib.invalidate_caches()
+        except AttributeError:
+            # invalidate_caches was introduced in Python 3.3
+            pass
         module = __import__(modulename,
                             fromlist=['plone', 'reload', 'tests', 'data'])
         return temp.name, module
