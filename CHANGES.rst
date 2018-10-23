@@ -4,6 +4,8 @@ Changelog
 3.0.0 (unreleased)
 ------------------
 
+- Call invalidate_caches and remove the __pycache__ in Python 3
+
 - Add Python 3.4, 3.5 and 3.6 support. Drop Python 2.6 support.
 
 - Test against Zope 4, while keeping compatibility with Zope 2.13.
