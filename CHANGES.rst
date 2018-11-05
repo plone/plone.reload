@@ -1,7 +1,7 @@
 Changelog
 =========
 
-3.0.0 (unreleased)
+3.0.0 (2018-11-05)
 ------------------
 
 - Call invalidate_caches and remove the __pycache__ in Python 3
