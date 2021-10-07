@@ -14,7 +14,8 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix missing doctype, add html lang, use html5 charset to reload page.
+  [thet]
 
 
 3.0.1 (2020-04-22)
