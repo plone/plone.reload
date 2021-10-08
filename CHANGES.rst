@@ -14,7 +14,7 @@ New features:
 
 Bug fixes:
 
-- *add item here*
+- Fix a deprecation warning [ale-rt]
 
 
 3.0.1 (2020-04-22)
