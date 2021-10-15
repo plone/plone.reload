@@ -14,6 +14,8 @@ New features:
 
 Bug fixes:
 
+- Fix a deprecation warning [ale-rt]
+
 - Fix missing doctype, add html lang, use html5 charset to reload page.
   [thet]
 

@@ -1,6 +1,11 @@
 from zope.component import getGlobalSiteManager
-from zope.site.hooks import setSite
 from zope.testing import cleanup
+
+try:
+    from zope.component.hooks import setSite
+except ImportError:
+    from zope.site.hooks import setSite
+
 
 # BBB: Zope 2.12
 try:
