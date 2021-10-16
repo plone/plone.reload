@@ -4,14 +4,6 @@ Changelog
 3.0.2 (unreleased)
 ------------------
 
-Breaking changes:
-
-- *add item here*
-
-New features:
-
-- *add item here*
-
 Bug fixes:
 
 - Fix a deprecation warning [ale-rt]
