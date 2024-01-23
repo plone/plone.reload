@@ -13,15 +13,16 @@ Taken and extended from xreload as posted by Guido van Rossum:
 """
 
 import marshal
-import imp
+import importlib
 import sys
 import types
 import inspect
 
 import six
-from six.moves import reload_module
+from importlib import reload as reload_module
 import zope.component
 
+# from zope.interface.interface import Specification
 
 CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__", "__weakref__"])
 
@@ -60,34 +61,24 @@ class Reloader(object):
         if pkgname:
             # We're not reloading the package, only the module in it
             pkg = sys.modules[pkgname]
-            path = pkg.__path__  # Search inside the package
         else:
             # Search the top-level module path
             pkg = None
-            path = None  # Make find_module() uses the default search path
-        # Find the module; may raise ImportError
-        (stream, filename, (suffix, mode, kind)) = imp.find_module(
-            modname, path)
-        # Turn it into a code object
-        try:
-            # Is it Python source code or byte code read from a file?
-            # XXX Could handle frozen modules, zip-import modules
-            if kind not in (imp.PY_COMPILED, imp.PY_SOURCE):
-                # Fall back to built-in reload()
-                return reload_module(self.mod)
-            if kind == imp.PY_SOURCE:
+        package_name = pkg.__name__ if pkg else None
+        specs = importlib.util.find_spec(self.mod.__name__, package=package_name)
+        filename = specs.origin
+        if specs.has_location:
+            with open(filename, 'rb') as stream:
                 source = stream.read()
                 # PeterB: if we don't strip the source code and add newline we
                 # get a SyntaxError even if `python $filename` is perfectly
                 # happy.
-                source = source.strip() + '\n'
+                source = source.strip() + b'\n'
                 code = compile(source, filename, "exec")
-            else:
-                # I have no idea how to test this one
-                code = marshal.load(stream)  # pragma NO COVER
-        finally:
-            if stream:
-                stream.close()
+        else:
+            # Fall back to built-in reload()
+            return reload_module(self.mod)
+
         # Execute the code im a temporary namespace; if this fails, no changes
         tmpns = {'__name__': '%s.%s' % (pkgname, modname),
                  '__file__': filename,
@@ -168,13 +159,12 @@ def _update_scope(oldscope, newscope):
 
 def _update_function(oldfunc, newfunc):
     """Update a function object."""
-    if _closure_changed(six.get_function_closure(oldfunc),
-                        six.get_function_closure(newfunc)):
+    if _closure_changed(oldfunc.__closure__,
+                        newfunc.__closure__):
         raise ClosureChanged()
-    setattr(oldfunc, six._func_code, six.get_function_code(newfunc))
-    setattr(oldfunc, six._func_defaults, six.get_function_defaults(newfunc))
-    _update_scope(six.get_function_globals(oldfunc),
-                  six.get_function_globals(newfunc))
+    setattr(oldfunc, "__code__", newfunc.__code__)
+    setattr(oldfunc, "__defaults__", newfunc.__defaults__)
+    _update_scope(oldfunc.__globals__, newfunc.__globals__)
     # XXX What else?
     return oldfunc
 

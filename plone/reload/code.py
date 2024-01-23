@@ -10,39 +10,17 @@ from plone.reload.xreload import Reloader
 _marker = object()
 MOD_TIMES = dict()
 
+from importlib.util import cache_from_source, source_from_cache
 
-try:
-    # Py3
-    from imp import cache_from_source, source_from_cache
-
-    def _cache_from_source(path):
-        if '__pycache__' in path:
-            return path
-        return cache_from_source(path)
-
-    def _source_from_cache(path):
-        if '__pycache__' in path:
-            return source_from_cache(path)
+def _cache_from_source(path):
+    if '__pycache__' in path:
         return path
+    return cache_from_source(path)
 
-except ImportError:
-    # Py2
-    def _cache_from_source(path):
-        if path.endswith('pyc') or path.endswith('pyo'):
-            cache = path
-        else:
-            cache = path + 'c'
-        if os.path.isfile(cache):
-            path = cache
-        return path
-
-    def _source_from_cache(path):
-        source = path
-        if path.endswith('pyc') or path.endswith('pyo'):
-            source = path[:-1]
-        if os.path.isfile(source):
-            path = source
-        return path
+def _source_from_cache(path):
+    if '__pycache__' in path:
+        return source_from_cache(path)
+    return path
 
 
 def in_search_path(path):
