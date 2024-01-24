@@ -1,45 +1,43 @@
-import os
-import sys
-
-from os.path import abspath
-from os.path import isfile
-
+from importlib.util import cache_from_source, source_from_cache
 from plone.reload import config
 from plone.reload.xreload import Reloader
+
+import os
+import sys
 
 _marker = object()
 MOD_TIMES = dict()
 
-from importlib.util import cache_from_source, source_from_cache
 
 def _cache_from_source(path):
-    if '__pycache__' in path:
+    if "__pycache__" in path:
         return path
     return cache_from_source(path)
 
+
 def _source_from_cache(path):
-    if '__pycache__' in path:
+    if "__pycache__" in path:
         return source_from_cache(path)
     return path
 
 
 def in_search_path(path):
-    if 'site-packages' in path:
+    if "site-packages" in path:
         return False
-    elif '.egg' in path:
+    elif ".egg" in path:
         return False
     return True
 
 
 def search_modules():
     modules = []
-    for name, module in sys.modules.items():
+    for _, module in sys.modules.items():
         if module is not None:
-            f = getattr(module, '__file__', None)
+            f = getattr(module, "__file__", None)
             # Standard library modules don't have a __file__
             if f is None:
                 continue
-            f = abspath(_source_from_cache(f))
+            f = os.path.abspath(_source_from_cache(f))
             if config.EXCLUDE_SITE_PACKAGES:
                 if in_search_path(f):
                     modules.append((f, module))
@@ -53,7 +51,7 @@ def get_mod_time(path):
     # If we have the compiled source, look for the source code change date
     path = _source_from_cache(path)
     # protect against missing and unaccessible files
-    if isfile(path):
+    if os.path.isfile(path):
         mtime = os.stat(path)[8]
     return mtime
 

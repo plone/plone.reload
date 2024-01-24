@@ -12,17 +12,13 @@ Taken and extended from xreload as posted by Guido van Rossum:
 
 """
 
-import marshal
+from importlib import reload
+from zope.interface.interface import Specification
+
 import importlib
+import inspect
 import sys
 import types
-import inspect
-
-import six
-from importlib import reload as reload_module
-import zope.component
-
-# from zope.interface.interface import Specification
 
 CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__", "__weakref__"])
 
@@ -54,7 +50,7 @@ class Reloader(object):
         # 'whatever'
         i = modname.rfind(".")
         if i >= 0:
-            pkgname, modname = modname[:i], modname[i + 1:]
+            pkgname, modname = modname[:i], modname[i + 1 :]
         else:
             pkgname = None
         # Compute the search path
@@ -68,21 +64,23 @@ class Reloader(object):
         specs = importlib.util.find_spec(self.mod.__name__, package=package_name)
         filename = specs.origin
         if specs.has_location:
-            with open(filename, 'rb') as stream:
+            with open(filename, "rb") as stream:
                 source = stream.read()
                 # PeterB: if we don't strip the source code and add newline we
                 # get a SyntaxError even if `python $filename` is perfectly
                 # happy.
-                source = source.strip() + b'\n'
+                source = source.strip() + b"\n"
                 code = compile(source, filename, "exec")
         else:
             # Fall back to built-in reload()
-            return reload_module(self.mod)
+            return reload(self.mod)
 
         # Execute the code im a temporary namespace; if this fails, no changes
-        tmpns = {'__name__': '%s.%s' % (pkgname, modname),
-                 '__file__': filename,
-                 '__doc__': modns['__doc__']}
+        tmpns = {
+            "__name__": "%s.%s" % (pkgname, modname),
+            "__file__": filename,
+            "__doc__": modns["__doc__"],
+        }
         exec(code, tmpns)
         # Now we get to the hard part
         _update_scope(modns, tmpns)
@@ -108,13 +106,13 @@ class Reloader(object):
             # Cop-out: if the type changed, give up
             return newobj
 
-        new_module = getattr(newobj, '__module__', None)
+        new_module = getattr(newobj, "__module__", None)
         if new_module != self.mod.__name__:
             # Do not update objects in-place that have been imported.
             # Just update their references.
             return newobj
 
-        if isinstance(newobj, zope.interface.interface.Specification):
+        if isinstance(newobj, Specification):
             # XXX we can't update interfaces because their internal
             # data structures break. We'll have to implement the reload method
             # for those and patch it in.
@@ -153,14 +151,13 @@ def _update_scope(oldscope, newscope):
         oldscope[name] = newscope[name]
     # Delete names that are no longer current
     for name in oldnames - newnames:
-        if not name.startswith('__'):
+        if not name.startswith("__"):
             del oldscope[name]
 
 
 def _update_function(oldfunc, newfunc):
     """Update a function object."""
-    if _closure_changed(oldfunc.__closure__,
-                        newfunc.__closure__):
+    if _closure_changed(oldfunc.__closure__, newfunc.__closure__):
         raise ClosureChanged()
     setattr(oldfunc, "__code__", newfunc.__code__)
     setattr(oldfunc, "__defaults__", newfunc.__defaults__)
@@ -172,8 +169,7 @@ def _update_function(oldfunc, newfunc):
 def _update_method(oldmeth, newmeth):
     """Update a method object."""
     # XXX What if im_func is not a function?
-    _update_function(six.get_unbound_function(oldmeth),
-                     six.get_unbound_function(newmeth))
+    _update_function(oldmeth, newmeth)
     return oldmeth
 
 
@@ -202,7 +198,7 @@ def _update_class(oldclass, newclass):
             if isinstance(new, (types.FunctionType, types.MethodType)):
                 if isinstance(old, property) and not isinstance(new, property):
                     # Removing a decorator
-                    setattr(oldclass, name, six.get_unbound_function(new))
+                    setattr(oldclass, name, new)
                 elif isinstance(new, types.FunctionType):
                     # Under Py3 there are only functions
                     _update_function(old, new)
@@ -220,6 +216,6 @@ def _update_class(oldclass, newclass):
                     setattr(oldclass, name, new)
         except ClosureChanged:
             # If the closure changed, we need to replace the entire function
-            setattr(oldclass, name, six.get_unbound_function(new))
+            setattr(oldclass, name, new)
 
     return oldclass
