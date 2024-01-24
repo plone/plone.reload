@@ -2,8 +2,7 @@ from zope.interface import Interface
 
 
 class IReload(Interface):
-    """Interface for the ZCML reload view.
-    """
+    """Interface for the ZCML reload view."""
 
     def status():
         """Return a status text."""

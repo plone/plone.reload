@@ -15,22 +15,21 @@ except ImportError:
 
 @implementer(IReload)
 class Reload(BrowserView):
-    """Reload view.
-    """
+    """Reload view."""
 
     def __init__(self, context, request):
         BrowserView.__init__(self, context, request)
         self.message = None
 
     def __call__(self):
-        action = self.request.form.get('action')
+        action = self.request.form.get("action")
         if action is not None:
             if self.available():
-                if action == 'code':
+                if action == "code":
                     self.message = self.code_reload()
-                elif action == 'zcml':
+                elif action == "zcml":
                     self.message = self.zcml_reload()
-            if action == 'template':
+            if action == "template":
                 self.message = self.template_reload()
         return self.index()
 
@@ -49,9 +48,9 @@ class Reload(BrowserView):
         if HAS_CMF:
             reloaded = reload_template(self.context)
             if reloaded > 0:
-                return '%s templates reloaded.' % reloaded
-            return 'No templates reloaded.'
-        return 'CMF is not installed. Templates cannot be reloaded.'
+                return "%s templates reloaded." % reloaded
+            return "No templates reloaded."
+        return "CMF is not installed. Templates cannot be reloaded."
 
     def code_reload(self):
         if not self.available():
@@ -59,12 +58,12 @@ class Reload(BrowserView):
 
         reloaded = reload_code()
 
-        result = ''
+        result = ""
         if reloaded:
-            result += 'Code reloaded:\n\n'
-            result += '\n'.join(reloaded)
+            result += "Code reloaded:\n\n"
+            result += "\n".join(reloaded)
         else:
-            result = 'No code reloaded!'
+            result = "No code reloaded!"
         return result
 
     def zcml_reload(self):
@@ -79,11 +78,11 @@ class Reload(BrowserView):
         # TODO Minimize all caches, we only really want to invalidate the
         # local site manager from all caches
         self.context._p_jar.db().cacheMinimize()
-        result = ''
+        result = ""
         if reloaded:
-            result += 'Code reloaded:\n\n'
-            result += '\n'.join(reloaded)
+            result += "Code reloaded:\n\n"
+            result += "\n".join(reloaded)
         else:
-            result = 'No code reloaded!'
-        result += '\n\nGlobal ZCML reloaded.'
+            result = "No code reloaded!"
+        result += "\n\nGlobal ZCML reloaded."
         return result
