@@ -2,6 +2,7 @@ from App.config import getConfiguration
 from zope.interface import implementer
 from zope.publisher.browser import BrowserView
 
+from plone.reload import _
 from plone.reload.code import reload_code
 from plone.reload.interfaces import IReload
 from plone.reload.zcml import reload_zcml
@@ -49,9 +50,9 @@ class Reload(BrowserView):
         if HAS_CMF:
             reloaded = reload_template(self.context)
             if reloaded > 0:
-                return '%s templates reloaded.' % reloaded
-            return 'No templates reloaded.'
-        return 'CMF is not installed. Templates cannot be reloaded.'
+                return _('%s templates reloaded.') % reloaded
+            return _('No templates reloaded.')
+        return _('CMF is not installed. Templates cannot be reloaded.')
 
     def code_reload(self):
         if not self.available():
@@ -61,10 +62,10 @@ class Reload(BrowserView):
 
         result = ''
         if reloaded:
-            result += 'Code reloaded:\n\n'
+            result += _('Code reloaded:') + '\n\n'
             result += '\n'.join(reloaded)
         else:
-            result = 'No code reloaded!'
+            result = _('No code reloaded!')
         return result
 
     def zcml_reload(self):
@@ -81,9 +82,9 @@ class Reload(BrowserView):
         self.context._p_jar.db().cacheMinimize()
         result = ''
         if reloaded:
-            result += 'Code reloaded:\n\n'
+            result += _('Code reloaded:') + '\n\n'
             result += '\n'.join(reloaded)
         else:
-            result = 'No code reloaded!'
-        result += '\n\nGlobal ZCML reloaded.'
+            result = _('No code reloaded!')
+        result += '\n\n' + _('Global ZCML reloaded.')
         return result

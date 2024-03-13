@@ -10,7 +10,8 @@ Breaking changes:
 
 New features:
 
-- *add item here*
+- Added i18n support.
+  [macagua]
 
 Bug fixes:
 

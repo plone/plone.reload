@@ -8,11 +8,13 @@ setup(
     description="Configuration and code reload without server restarts.",
     long_description=(open('README.rst').read() + '\n' +
                       open('CHANGES.rst').read()),
+    # Get more from https://pypi.org/classifiers/
     classifiers=[
         "Development Status :: 5 - Production/Stable",
         "Environment :: Web Environment",
         "Framework :: Plone",
         "Framework :: Zope2",
+        "Framework :: Zope :: 2",
         "Framework :: Zope :: 4",
         "License :: OSI Approved :: BSD License",
         "Operating System :: OS Independent",
@@ -23,9 +25,10 @@ setup(
         "Programming Language :: Python :: 3.6",
         "Programming Language :: Python :: 3.7",
         "Programming Language :: Python :: 3.8",
+        "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
-    keywords='zope plone reload',
+    keywords='zope plone reload python zcml code',
     author='Hanno Schlichting',
     author_email='hanno@hannosch.eu',
     url='https://pypi.org/project/plone.reload',
@@ -51,5 +54,7 @@ setup(
     entry_points="""
     [z3c.autoinclude.plugin]
     target = plone
+    [console_scripts]
+    update_dist_locale = plone.reload.locales.update:update_locale
     """,
 )

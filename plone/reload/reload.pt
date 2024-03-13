@@ -1,6 +1,9 @@
 <tal:doctype tal:replace="structure string:&lt;!DOCTYPE html&gt;" />
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal">
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="plone.reload">
+
 <head>
   <title>plone.reload</title>
   <meta charset="utf-8" />
@@ -11,24 +14,26 @@
 
     <div tal:condition="not:view/available"
          style="background-color:#ff6060;
-                padding:0.5em; line-height:1.2em;">
+                padding:0.5em; line-height:1.2em;"
+         i18n:translate="">
         You are running in production mode. plone.reload's code and ZCML
         reload features are only available in development mode.
     </div>
 
     <tal:block tal:condition="view/status">
 
-        <h2>Status</h2>
+        <h2 i18n:translate="">Status</h2>
 
         <pre tal:content="view/status"
              style="background-color:#ddd; padding:0.5em;
-                    border: 1px black dashed; line-height:1.2em;">
+                    border: 1px black dashed; line-height:1.2em;"
+             i18n:translate="">
             Status
         </pre>
 
     </tal:block>
 
-    <h2>Actions</h2>
+    <h2 i18n:translate="">Actions</h2>
 
     <table>
         <tr>
@@ -40,7 +45,7 @@
 
                     <input type="hidden" name="action" value="code" />
 
-                    <input type="submit" value="Reload Code" />
+                    <input type="submit" value="Reload Code" i18n:attributes="value" />
 
                 </form>
             </td>
@@ -52,7 +57,7 @@
 
                     <input type="hidden" name="action" value="zcml" />
 
-                    <input type="submit" value="Reload Code and ZCML" />
+                    <input type="submit" value="Reload Code and ZCML" i18n:attributes="value" />
 
                 </form>
             </td>
@@ -64,7 +69,7 @@
 
                     <input type="hidden" name="action" value="template" />
 
-                    <input type="submit" value="Reload templates" />
+                    <input type="submit" value="Reload templates" i18n:attributes="value" />
 
                 </form>
             </td>

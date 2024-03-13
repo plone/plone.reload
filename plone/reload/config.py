@@ -1,1 +1,3 @@
 EXCLUDE_SITE_PACKAGES = True
+
+PACKAGE_NAME = "plone.reload"
