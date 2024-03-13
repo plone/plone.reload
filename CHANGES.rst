@@ -10,6 +10,9 @@ Breaking changes:
 
 New features:
 
+- Added Spanish translation.
+  [macagua]
+
 - Added i18n support.
   [macagua]
 
