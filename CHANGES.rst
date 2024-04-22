@@ -9,14 +9,6 @@ Breaking changes:
 - Add support for Python 3.12. Drop support for Python 2
   [pbauer]
 
-New features:
-
-- *add item here*
-
-Bug fixes:
-
-- *add item here*
-
 
 3.0.2 (2021-10-16)
 ------------------
