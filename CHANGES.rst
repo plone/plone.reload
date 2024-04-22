@@ -6,7 +6,8 @@ Changelog
 
 Breaking changes:
 
-- *add item here*
+- Add support for Python 3.12. Drop support for Python 2
+  [pbauer]
 
 New features:
 
