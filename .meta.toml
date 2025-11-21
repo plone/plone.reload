@@ -1,0 +1,9 @@
+# Generated from:
+# https://github.com/plone/meta/tree/main/src/plone/meta/default
+# See the inline comments on how to expand/tweak this configuration file
+[tox]
+test_matrix = {"6.2" = ["*"]}
+
+[meta]
+template = "default"
+commit-id = "2.2.2"
