@@ -1,3 +1,4 @@
+from setuptools import find_packages
 from setuptools import setup
 
 version = "5.0.0.dev0"
@@ -28,8 +29,9 @@ setup(
     author_email="hanno@hannosch.eu",
     url="https://pypi.org/project/plone.reload",
     license="BSD",
-    packages=["plone", "plone.reload"],
+    packages=find_packages("src"),
     namespace_packages=["plone"],
+    package_dir={"": "src"},
     include_package_data=True,
     zip_safe=False,
     python_requires=">=3.8",
