@@ -10,5 +10,8 @@ i18ndude_extra_lines = """
         pass_filenames: false
 """
 
+[pyproject]
+dependencies_ignores = "['Products.CMFCore']"
+
 [tox]
 test_matrix = {"6.2" = ["*"]}
