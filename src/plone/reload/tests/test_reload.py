@@ -63,9 +63,9 @@ class TestReload(unittest.TestCase):
 class TestReloadModule(TestReload):
 
     def test_stdlib(self):
-        import sre_constants
+        import bisect
 
-        r = xreload.Reloader(sre_constants)
+        r = xreload.Reloader(bisect)
         r.reload()
 
     def test_immutable_constant_added(self):
