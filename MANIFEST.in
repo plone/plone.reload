@@ -1,4 +1,5 @@
 graft docs
 graft src
 include *rst *txt tox.ini
+prune news
 global-exclude *.pyc
