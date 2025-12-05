@@ -20,6 +20,7 @@ import inspect
 import sys
 import types
 
+
 CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__", "__weakref__"])
 
 
@@ -27,7 +28,7 @@ class ClosureChanged(Exception):
     pass
 
 
-class Reloader(object):
+class Reloader:
     """Reload a module in place, updating classes, methods and functions.
 
     Args:
@@ -77,7 +78,7 @@ class Reloader(object):
 
         # Execute the code im a temporary namespace; if this fails, no changes
         tmpns = {
-            "__name__": "%s.%s" % (pkgname, modname),
+            "__name__": f"{pkgname}.{modname}",
             "__file__": filename,
             "__doc__": modns["__doc__"],
         }

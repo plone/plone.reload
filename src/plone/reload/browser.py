@@ -1,10 +1,10 @@
 from App.config import getConfiguration
-from zope.interface import implementer
-from zope.publisher.browser import BrowserView
-
 from plone.reload.code import reload_code
 from plone.reload.interfaces import IReload
 from plone.reload.zcml import reload_zcml
+from zope.interface import implementer
+from zope.publisher.browser import BrowserView
+
 
 HAS_CMF = True
 try:

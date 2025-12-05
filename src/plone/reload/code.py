@@ -1,9 +1,11 @@
-from importlib.util import cache_from_source, source_from_cache
+from importlib.util import cache_from_source
+from importlib.util import source_from_cache
 from plone.reload import config
 from plone.reload.xreload import Reloader
 
 import os
 import sys
+
 
 _marker = object()
 MOD_TIMES = dict()
@@ -57,7 +59,6 @@ def get_mod_time(path):
 
 
 def get_mod_times(event=None):
-    global MOD_TIMES
     for path, module in search_modules():
         if path not in MOD_TIMES:
             MOD_TIMES[path] = (get_mod_time(path), module)
@@ -74,7 +75,6 @@ def check_mod_times():
 
 
 def reload_code():
-    global MOD_TIMES
     reloaded = []
     for path, time, module in check_mod_times():
         r = Reloader(module)

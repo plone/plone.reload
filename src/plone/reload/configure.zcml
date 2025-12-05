@@ -1,0 +1,21 @@
+<configure
+    xmlns="http://namespaces.zope.org/zope"
+    xmlns:browser="http://namespaces.zope.org/browser"
+    xmlns:zcml="http://namespaces.zope.org/zcml"
+    >
+
+  <browser:page
+      name="reload"
+      for="OFS.interfaces.IApplication"
+      class=".browser.Reload"
+      allowed_interface=".interfaces.IReload"
+      template="reload.pt"
+      permission="zope2.ViewManagementScreens"
+      />
+
+  <subscriber
+      for="zope.processlifetime.IProcessStarting"
+      handler="plone.reload.code.get_mod_times"
+      />
+
+</configure>
