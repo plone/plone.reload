@@ -1,28 +1,33 @@
 <tal:doctype tal:replace="structure string:&lt;!DOCTYPE html&gt;" />
-<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en"
-      xmlns:tal="http://xml.zope.org/namespaces/tal">
-<head>
-  <title>plone.reload</title>
-  <meta charset="utf-8" />
-</head>
-<body>
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      lang="en"
+      xml:lang="en"
+>
+  <head>
+    <title>plone.reload</title>
+    <meta charset="utf-8" />
+  </head>
+  <body>
 
     <h1>plone.reload</h1>
 
-    <div tal:condition="not:view/available"
-         style="background-color:#ff6060;
-                padding:0.5em; line-height:1.2em;">
+    <div style="background-color:#ff6060;
+                padding:0.5em; line-height:1.2em;"
+         tal:condition="not:view/available"
+    >
         You are running in production mode. plone.reload's code and ZCML
         reload features are only available in development mode.
     </div>
 
     <tal:block tal:condition="view/status">
 
-        <h2>Status</h2>
+      <h2>Status</h2>
 
-        <pre tal:content="view/status"
-             style="background-color:#ddd; padding:0.5em;
-                    border: 1px black dashed; line-height:1.2em;">
+      <pre style="background-color:#ddd; padding:0.5em;
+                    border: 1px black dashed; line-height:1.2em;"
+           tal:content="view/status"
+      >
             Status
         </pre>
 
@@ -31,45 +36,72 @@
     <h2>Actions</h2>
 
     <table>
-        <tr>
-            <td style="padding:3px;"
-                tal:condition="view/available">
-                <form action="#"
-                      method="get"
-                      tal:attributes="action request/getURL">
+      <tr>
+        <td style="padding:3px;"
+            tal:condition="view/available"
+        >
+          <form action="#"
+                method="get"
+                tal:attributes="
+                  action request/getURL;
+                "
+          >
 
-                    <input type="hidden" name="action" value="code" />
+            <input name="action"
+                   type="hidden"
+                   value="code"
+            />
 
-                    <input type="submit" value="Reload Code" />
+            <input type="submit"
+                   value="Reload Code"
+            />
 
-                </form>
-            </td>
-            <td style="padding:3px;"
-                tal:condition="view/available">
-                <form action="#"
-                      method="get"
-                      tal:attributes="action request/getURL">
+          </form>
+        </td>
+        <td style="padding:3px;"
+            tal:condition="view/available"
+        >
+          <form action="#"
+                method="get"
+                tal:attributes="
+                  action request/getURL;
+                "
+          >
 
-                    <input type="hidden" name="action" value="zcml" />
+            <input name="action"
+                   type="hidden"
+                   value="zcml"
+            />
 
-                    <input type="submit" value="Reload Code and ZCML" />
+            <input type="submit"
+                   value="Reload Code and ZCML"
+            />
 
-                </form>
-            </td>
-            <td style="padding:3px;"
-                tal:condition="view/template_reload_available">
-                <form action="#"
-                      method="get"
-                      tal:attributes="action request/getURL">
+          </form>
+        </td>
+        <td style="padding:3px;"
+            tal:condition="view/template_reload_available"
+        >
+          <form action="#"
+                method="get"
+                tal:attributes="
+                  action request/getURL;
+                "
+          >
 
-                    <input type="hidden" name="action" value="template" />
+            <input name="action"
+                   type="hidden"
+                   value="template"
+            />
 
-                    <input type="submit" value="Reload templates" />
+            <input type="submit"
+                   value="Reload templates"
+            />
 
-                </form>
-            </td>
-        </tr>
+          </form>
+        </td>
+      </tr>
     </table>
 
-</body>
+  </body>
 </html>
