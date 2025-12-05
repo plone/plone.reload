@@ -33,7 +33,7 @@ Priority 2
   - Add use cases for when to consider plone.reload as part of your toolbox.
     For example:
     
-    - How does it tie into themeing/skinning Plone (add a note about how
+    - How does it tie into theming/skinning Plone (add a note about how
       CSS files and Page Templates are already reloaded without this, i.e.
       explain Zope development vs. production mode.
 
