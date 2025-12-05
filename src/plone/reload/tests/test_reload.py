@@ -7,7 +7,7 @@ import tempfile
 import unittest
 
 
-TESTS = os.path.join(os.path.dirname(__file__), 'data')
+TESTS = os.path.join(os.path.dirname(__file__), "data")
 
 
 class TestReload(unittest.TestCase):
@@ -17,25 +17,25 @@ class TestReload(unittest.TestCase):
         # an __init__.py to the data subfolder, to temporarily make it a
         # package
         temp = tempfile.NamedTemporaryFile(
-            mode='w', suffix='.py', dir=TESTS, delete=False)
+            mode="w", suffix=".py", dir=TESTS, delete=False
+        )
         temp.close()
-        fd = open(os.path.join(TESTS, '__init__.py'), mode="w")
+        fd = open(os.path.join(TESTS, "__init__.py"), mode="w")
         fd.write("#")
         fd.close()
         name = os.path.split(temp.name)[-1]
-        modulename = 'plone.reload.tests.data.' + name[:-3]
+        modulename = "plone.reload.tests.data." + name[:-3]
         try:
             importlib.invalidate_caches()
         except AttributeError:
             # invalidate_caches was introduced in Python 3.3
             pass
-        module = __import__(modulename,
-                            fromlist=['plone', 'reload', 'tests', 'data'])
+        module = __import__(modulename, fromlist=["plone", "reload", "tests", "data"])
         return temp.name, module
 
     def reload(self, text=None):
         if text is not None:
-            temp = open(self.name, mode='w')
+            temp = open(self.name, mode="w")
             temp.write(text)
             temp.close()
         self.reloader.reload()
@@ -46,16 +46,16 @@ class TestReload(unittest.TestCase):
 
     def tearDown(self):
         os.unlink(self.name)
-        sfile = self.name + 'c'
+        sfile = self.name + "c"
         if os.path.isfile(sfile):
             os.unlink(sfile)
-        data_init = os.path.join(TESTS, '__init__.py')
+        data_init = os.path.join(TESTS, "__init__.py")
         if os.path.isfile(data_init):
             os.unlink(data_init)
-        if os.path.isfile(data_init + 'c'):
-            os.unlink(data_init + 'c')
+        if os.path.isfile(data_init + "c"):
+            os.unlink(data_init + "c")
 
-        data_pycache = os.path.join(TESTS, '__pycache__')
+        data_pycache = os.path.join(TESTS, "__pycache__")
         if os.path.isdir(data_pycache):
             shutil.rmtree(data_pycache)
 
@@ -64,6 +64,7 @@ class TestReloadModule(TestReload):
 
     def test_stdlib(self):
         import sre_constants
+
         r = xreload.Reloader(sre_constants)
         r.reload()
 
@@ -79,7 +80,7 @@ class TestReloadModule(TestReload):
     def test_immutable_constant_removed(self):
         self.reload("FOO = 15")
         self.reload("")
-        self.assertTrue(getattr(self.module, 'FOO', None) is None)
+        self.assertTrue(getattr(self.module, "FOO", None) is None)
 
     def test_mutable_constant_added(self):
         self.reload("FOO = [1, 2]")
@@ -94,8 +95,7 @@ class TestReloadModule(TestReload):
         self.assertTrue(self.module.foo())
 
     def test_class_added(self):
-        self.reload(
-            "class Foo(object):\n\tdef __init__(self):\n\t\tself.bar = 1")
+        self.reload("class Foo(object):\n\tdef __init__(self):\n\t\tself.bar = 1")
         self.assertEqual(self.module.Foo().bar, 1)
 
     def test_import_added(self):
@@ -129,7 +129,7 @@ class TestReloadFunction(TestReload):
         self.reload(source + "\ndef bar(): return True\n")
         self.reload(source)
         self.assertTrue(self.module.foo())
-        self.assertTrue(getattr(self.module, 'bar', None) is None)
+        self.assertTrue(getattr(self.module, "bar", None) is None)
 
 
 class TestReloadClass(TestReload):
@@ -243,25 +243,26 @@ class TestReloadClass(TestReload):
         self.assertEqual(self.module.Foo().foo(5), 7)
 
     def test_class_class_instance_changed(self):
-        base = ("class Foo(object):\n\tdef f(self): return %s\n"
-                "class Bar(object):\n")
+        base = "class Foo(object):\n\tdef f(self): return %s\n" "class Bar(object):\n"
         self.reload(base % 1 + "\tfoo = Foo()")
         self.assertEqual(self.module.Bar().foo.f(), 1)
         self.reload(base % 2 + "\tfoo = Foo()")
         self.assertEqual(self.module.Bar().foo.f(), 2)
 
     def test_class_descriptor_changed(self):
-        base = ("class Foo(object):\n"
-                "\tdef i(self): return 'Foo'\n"
-                "class Bar(object):\n"
-                "\tdef i(self): return 'Bar'\n"
-                "\tdef __get__(self, instance, type): return Foo()\n"
-                "class Baz(object):\n")
+        base = (
+            "class Foo(object):\n"
+            "\tdef i(self): return 'Foo'\n"
+            "class Bar(object):\n"
+            "\tdef i(self): return 'Bar'\n"
+            "\tdef __get__(self, instance, type): return Foo()\n"
+            "class Baz(object):\n"
+        )
         self.reload(base + "\tbar = Bar()")
         self.reload(base + "\tbar = Bar()")
         baz = self.module.Baz
-        self.assertEqual(baz.bar.i(), 'Foo')
-        self.assertEqual(baz.__dict__.get('bar').i(), 'Bar')
+        self.assertEqual(baz.bar.i(), "Foo")
+        self.assertEqual(baz.__dict__.get("bar").i(), "Bar")
 
 
 class TestReloadDecorator(TestReload):
@@ -310,6 +311,6 @@ class IFoo(Interface):
     def test_interface_method_added(self):
         self.reload(self.base)
         self.reload(self.base + '    def baz():\n        """Maybe a baz?"""')
-        self.assertTrue('bar' in self.module.IFoo.names())
+        self.assertTrue("bar" in self.module.IFoo.names())
         # Reloading interfaces doesn't work yet at all
-        self.assertFalse('baz' in self.module.IFoo.names())
+        self.assertFalse("baz" in self.module.IFoo.names())
