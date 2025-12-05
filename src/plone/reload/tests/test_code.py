@@ -1,3 +1,6 @@
+from importlib.metadata import distribution
+from importlib.metadata import PackageNotFoundError
+
 import os
 import sys
 import types
@@ -5,6 +8,12 @@ import unittest
 
 
 TESTS = os.path.dirname(__file__)
+
+try:
+    distribution("zc.buildout")
+    HAS_BUILDOUT = True
+except PackageNotFoundError:
+    HAS_BUILDOUT = False
 
 
 class TestSearch(unittest.TestCase):
@@ -36,6 +45,7 @@ class TestSearch(unittest.TestCase):
                 break
         self.assertTrue(found)
 
+    @unittest.skipUnless(HAS_BUILDOUT, "The test for eggs needs zc.buildout.")
     def test_search_modules_eggs(self):
         from plone.reload import config
         from plone.reload.code import search_modules
