@@ -37,7 +37,6 @@ setup(
         "zope.interface",
         "zope.processlifetime",
         "zope.publisher",
-        "zope.site",
         "zope.testing",
         "Zope",
     ],
