@@ -1,0 +1,4 @@
+[run]
+# Some files are added temporarily in tests in the data directory.
+omit =
+    src/plone/reload/tests/data/*
