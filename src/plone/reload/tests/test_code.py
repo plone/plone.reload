@@ -3,6 +3,7 @@ import sys
 import types
 import unittest
 
+
 TESTS = os.path.dirname(__file__)
 
 
@@ -33,8 +34,8 @@ class TestSearch(unittest.TestCase):
         self.assertTrue(found)
 
     def test_search_modules_eggs(self):
-        from plone.reload.code import search_modules
         from plone.reload import config
+        from plone.reload.code import search_modules
         try:
             esp = config.EXCLUDE_SITE_PACKAGES
             config.EXCLUDE_SITE_PACKAGES = False
@@ -56,7 +57,8 @@ class TestTimes(unittest.TestCase):
         self.assertEqual(our_time, os.stat(tests)[8])
 
     def test_get_mod_time_compiled(self):
-        from plone.reload.code import get_mod_time, _cache_from_source
+        from plone.reload.code import _cache_from_source
+        from plone.reload.code import get_mod_time
         tests = os.path.join(TESTS, '__init__.py')
         tests_c = _cache_from_source(tests)
         our_time = get_mod_time(tests_c)
@@ -92,8 +94,8 @@ class TestTimes(unittest.TestCase):
         self.assertEqual(len(reload_code()), 0)
 
     def test_reload_code_change(self):
-        from plone.reload.code import reload_code
         from plone.reload.code import get_mod_times
+        from plone.reload.code import reload_code
         our_package = os.path.abspath(
             os.path.join(TESTS, os.pardir, '__init__.py'))
         times = get_mod_times()

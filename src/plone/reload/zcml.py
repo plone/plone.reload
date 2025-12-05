@@ -1,7 +1,7 @@
+from Zope2.App import zcml
 from zope.component import getGlobalSiteManager
 from zope.component.hooks import setSite
 from zope.testing import cleanup
-from Zope2.App import zcml
 
 
 CORE_CLEANUPS = frozenset(

@@ -1,10 +1,11 @@
+from plone.reload import xreload
+
+import importlib
 import os
 import shutil
 import tempfile
 import unittest
-import importlib
 
-from plone.reload import xreload
 
 TESTS = os.path.join(os.path.dirname(__file__), 'data')
 
