@@ -42,6 +42,7 @@ setup(
     ],
     extras_require=dict(
         cmf=["Products.CMFCore"],
+        test=["setuptools"],
     ),
     entry_points="""
     [z3c.autoinclude.plugin]
