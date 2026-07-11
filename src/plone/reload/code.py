@@ -6,7 +6,6 @@ from plone.reload.xreload import Reloader
 import os
 import sys
 
-
 _marker = object()
 MOD_TIMES = dict()
 

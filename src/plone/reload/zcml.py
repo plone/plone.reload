@@ -3,7 +3,6 @@ from zope.component import getGlobalSiteManager
 from zope.component.hooks import setSite
 from zope.testing import cleanup
 
-
 CORE_CLEANUPS = frozenset(
     [
         "OFS.metaconfigure",
