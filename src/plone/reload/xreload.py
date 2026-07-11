@@ -20,7 +20,6 @@ import inspect
 import sys
 import types
 
-
 CLASS_STATICS = frozenset(["__dict__", "__doc__", "__module__", "__weakref__"])
 
 

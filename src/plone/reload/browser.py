@@ -5,7 +5,6 @@ from plone.reload.zcml import reload_zcml
 from zope.interface import implementer
 from zope.publisher.browser import BrowserView
 
-
 HAS_CMF = True
 try:
     from plone.reload.template import reload_template

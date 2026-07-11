@@ -1,6 +1,5 @@
 from setuptools import setup
 
-
 version = "5.0.1.dev0"
 
 setup(
@@ -22,6 +21,7 @@ setup(
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
         "Programming Language :: Python :: 3.13",
+        "Programming Language :: Python :: 3.14",
         "Programming Language :: Python :: Implementation :: CPython",
     ],
     keywords="zope plone reload",
@@ -42,6 +42,7 @@ setup(
     ],
     extras_require=dict(
         cmf=["Products.CMFCore"],
+        test=["setuptools"],
     ),
     entry_points="""
     [z3c.autoinclude.plugin]

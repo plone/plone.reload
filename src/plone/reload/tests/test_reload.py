@@ -6,7 +6,6 @@ import shutil
 import tempfile
 import unittest
 
-
 TESTS = os.path.join(os.path.dirname(__file__), "data")
 
 

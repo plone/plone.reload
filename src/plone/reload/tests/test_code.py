@@ -6,7 +6,6 @@ import sys
 import types
 import unittest
 
-
 TESTS = os.path.dirname(__file__)
 
 try:
