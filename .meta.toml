@@ -3,7 +3,7 @@
 # See the inline comments on how to expand/tweak this configuration file
 [meta]
 template = "default"
-commit-id = "2.10.0"
+commit-id = "2.13.1"
 
 [pre_commit]
 i18ndude_extra_lines = """
@@ -14,4 +14,4 @@ i18ndude_extra_lines = """
 dependencies_ignores = "['Products.CMFCore']"
 
 [tox]
-test_matrix = {"6.2" = ["*"]}
+test_matrix = {"6.3" = ["*"], "6.2" = ["*"]}
